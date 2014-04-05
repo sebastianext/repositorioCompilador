@@ -1,4 +1,0 @@
-repositorioCompilador
-=====================
-
-Proyecto de compiladores
