@@ -12,7 +12,7 @@
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * 
  */
-package co.edu.uniquindio.catlike;
+package co.edu.uniquindio.lexico.catlike;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

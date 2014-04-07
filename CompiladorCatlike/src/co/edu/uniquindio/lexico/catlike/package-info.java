@@ -17,4 +17,4 @@
  *  Paquete que contiene la logica del proyecto
 
  */
-package co.edu.uniquindio.catlike;
+package co.edu.uniquindio.lexico.catlike;

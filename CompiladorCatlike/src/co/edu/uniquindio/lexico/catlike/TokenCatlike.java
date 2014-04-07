@@ -13,15 +13,14 @@
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * 
  */
-package co.edu.uniquindio.catlike;
+package co.edu.uniquindio.lexico.catlike;
 
 /**
  * Clase que representa un Token.
  */
 public class TokenCatlike {
 
-	
-	
+
 	// -----------------------------------------------------------------
 	// Atributos
 	// -----------------------------------------------------------------

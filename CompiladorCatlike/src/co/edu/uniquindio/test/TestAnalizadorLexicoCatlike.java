@@ -21,9 +21,9 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import co.edu.uniquindio.catlike.AnalizadorLexicoCatlike;
-import co.edu.uniquindio.catlike.Constantes;
-import co.edu.uniquindio.catlike.TokenCatlike;
+import co.edu.uniquindio.lexico.catlike.AnalizadorLexicoCatlike;
+import co.edu.uniquindio.lexico.catlike.ConstantesTipos;
+import co.edu.uniquindio.lexico.catlike.TokenCatlike;
 
 /**
  * Clase que representa un las prubas.
@@ -52,7 +52,7 @@ public class TestAnalizadorLexicoCatlike {
 		analizadorLexico = new AnalizadorLexicoCatlike( );
 		TokenCatlike token = analizadorLexico.extraerNumero("987+256+a",4);
 		assertEquals( "Error en el lexema", "256", token.getLexema());
-		assertEquals( "Error en el tipo", Constantes.ENTERO, token.getTipo());
+		assertEquals( "Error en el tipo", ConstantesTipos.ENTERO, token.getTipo());
 		assertEquals( "Error en el índice del siguiente lexema", 7, token.getIndiceSiguiente());
 	}
 	/**
@@ -64,7 +64,7 @@ public class TestAnalizadorLexicoCatlike {
 		analizadorLexico = new AnalizadorLexicoCatlike( );
 		TokenCatlike token = analizadorLexico.extraerNumero("98+2.56+a",3);
 		assertEquals( "Error en el lexema", "2.56", token.getLexema());
-		assertEquals( "Error en el tipo", Constantes.REAL, token.getTipo());
+		assertEquals( "Error en el tipo", ConstantesTipos.REAL, token.getTipo());
 		assertEquals( "Error en el índice del siguiente lexema", 7, token.getIndiceSiguiente());
 	}
 
@@ -77,7 +77,7 @@ public class TestAnalizadorLexicoCatlike {
 		analizadorLexico = new AnalizadorLexicoCatlike( );
 		TokenCatlike token = analizadorLexico.extraerOperadorAditivo("98+256+a",2);
 		assertEquals( "Error en el lexema", "+", token.getLexema());
-		assertEquals( "Error en el tipo", Constantes.OPERADORADITIVO, token.getTipo());
+		assertEquals( "Error en el tipo", ConstantesTipos.OPERADORADITIVO, token.getTipo());
 		assertEquals( "Error en el índice del siguiente lexema", 3, token.getIndiceSiguiente());
 	}
 
@@ -90,7 +90,7 @@ public class TestAnalizadorLexicoCatlike {
 		analizadorLexico = new AnalizadorLexicoCatlike( );
 		TokenCatlike token = analizadorLexico.extraerOperadorResta("98-256+a",2);
 		assertEquals( "Error en el lexema", "-", token.getLexema());
-		assertEquals( "Error en el tipo", Constantes.OPERADORADITIVO, token.getTipo());
+		assertEquals( "Error en el tipo", ConstantesTipos.OPERADORADITIVO, token.getTipo());
 		assertEquals( "Error en el índice del siguiente lexema", 3, token.getIndiceSiguiente());
 	}
 
@@ -103,7 +103,7 @@ public class TestAnalizadorLexicoCatlike {
 		analizadorLexico = new AnalizadorLexicoCatlike( );
 		TokenCatlike token = analizadorLexico.extraerOperadorMultiplicativo("98*256+a",2);
 		assertEquals( "Error en el lexema", "*", token.getLexema());
-		assertEquals( "Error en el tipo", Constantes.OPERADORMULTIPLICATIVO, token.getTipo());
+		assertEquals( "Error en el tipo", ConstantesTipos.OPERADORMULTIPLICATIVO, token.getTipo());
 		assertEquals( "Error en el índice del siguiente lexema", 3, token.getIndiceSiguiente());
 	}
 
@@ -116,7 +116,7 @@ public class TestAnalizadorLexicoCatlike {
 		analizadorLexico = new AnalizadorLexicoCatlike( );
 		TokenCatlike token = analizadorLexico.extraerOperadorDivision("98/256+a",2);
 		assertEquals( "Error en el lexema", "/", token.getLexema());
-		assertEquals( "Error en el tipo", Constantes.OPERADORMULTIPLICATIVO, token.getTipo());
+		assertEquals( "Error en el tipo", ConstantesTipos.OPERADORMULTIPLICATIVO, token.getTipo());
 		assertEquals( "Error en el índice del siguiente lexema", 3, token.getIndiceSiguiente());
 	}
 
@@ -129,7 +129,7 @@ public class TestAnalizadorLexicoCatlike {
 		analizadorLexico = new AnalizadorLexicoCatlike( );
 		TokenCatlike token = analizadorLexico.extraerOperadorLogico("98&256+a",2);
 		assertEquals( "Error en el lexema", "&", token.getLexema());
-		assertEquals( "Error en el tipo", Constantes.OPERADORLOGICO, token.getTipo());
+		assertEquals( "Error en el tipo", ConstantesTipos.OPERADORLOGICO, token.getTipo());
 		assertEquals( "Error en el índice del siguiente lexema", 3, token.getIndiceSiguiente());
 	}
 	/**
@@ -141,7 +141,7 @@ public class TestAnalizadorLexicoCatlike {
 		analizadorLexico = new AnalizadorLexicoCatlike( );
 		TokenCatlike token = analizadorLexico.extraerOperadorRelacional("98<=56+a",1);
 		assertEquals( "Error en el lexema", "<=", token.getLexema());
-		assertEquals( "Error en el tipo", Constantes.OPERADORRELACIONAL, token.getTipo());
+		assertEquals( "Error en el tipo", ConstantesTipos.OPERADORRELACIONAL, token.getTipo());
 		assertEquals( "Error en el índice del siguiente lexema", 4, token.getIndiceSiguiente());
 	}
 
@@ -154,7 +154,7 @@ public class TestAnalizadorLexicoCatlike {
 		analizadorLexico = new AnalizadorLexicoCatlike( );
 		TokenCatlike token = analizadorLexico.extraerSeparadorSentencia("98;",2);
 		assertEquals( "Error en el lexema", ";", token.getLexema());
-		assertEquals( "Error en el tipo", Constantes.SEPARADORSENTENCIA, token.getTipo());
+		assertEquals( "Error en el tipo", ConstantesTipos.SEPARADORSENTENCIA, token.getTipo());
 		assertEquals( "Error en el índice del siguiente lexema", 3, token.getIndiceSiguiente());
 	}
 
@@ -167,7 +167,7 @@ public class TestAnalizadorLexicoCatlike {
 		analizadorLexico = new AnalizadorLexicoCatlike( );
 		TokenCatlike token = analizadorLexico.extraerEspacios("98 256",2);
 		assertEquals( "Error en el lexema", " ", token.getLexema());
-		assertEquals( "Error en el tipo", Constantes.ESPACIOS, token.getTipo());
+		assertEquals( "Error en el tipo", ConstantesTipos.ESPACIOS, token.getTipo());
 		assertEquals( "Error en el índice del siguiente lexema", 3, token.getIndiceSiguiente());
 	}
 
@@ -184,7 +184,7 @@ public class TestAnalizadorLexicoCatlike {
 			token = analizadorLexico.extraerPalabrasRecervadas("2+4*if<hola",4);
 
 			assertEquals( "Error en el lexema", "if", token.getLexema());
-			assertEquals( "Error en el tipo", Constantes.PALABRARESERVADA, token.getTipo());
+			assertEquals( "Error en el tipo", ConstantesTipos.PALABRARESERVADA, token.getTipo());
 			assertEquals( "Error en el índice del siguiente lexema", 6, token.getIndiceSiguiente());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -201,7 +201,7 @@ public class TestAnalizadorLexicoCatlike {
 		analizadorLexico = new AnalizadorLexicoCatlike( );
 		TokenCatlike token = analizadorLexico.extraerCadena("public¡hola¡4+5",6);
 		assertEquals( "Error en el lexema", "¡hola¡", token.getLexema());
-		assertEquals( "Error en el tipo", Constantes.CADENACARACTERES, token.getTipo());
+		assertEquals( "Error en el tipo", ConstantesTipos.CADENACARACTERES, token.getTipo());
 		assertEquals( "Error en el índice del siguiente lexema", 12, token.getIndiceSiguiente());
 	}
 
@@ -214,7 +214,7 @@ public class TestAnalizadorLexicoCatlike {
 		analizadorLexico = new AnalizadorLexicoCatlike( );
 		TokenCatlike token = analizadorLexico.extraerCadena("public¡hola4+5",6);
 		assertEquals( "Error en el lexema", "¡hola4+5", token.getLexema());
-		assertEquals( "Error en el tipo", Constantes.CADENACARACTERESSINCERRAR, token.getTipo());
+		assertEquals( "Error en el tipo", ConstantesTipos.CADENACARACTERESSINCERRAR, token.getTipo());
 		assertEquals( "Error en el índice del siguiente lexema", 14, token.getIndiceSiguiente());
 	}
 
@@ -227,7 +227,7 @@ public class TestAnalizadorLexicoCatlike {
 		analizadorLexico = new AnalizadorLexicoCatlike( );
 		TokenCatlike token = analizadorLexico.extraerComentarios("public#hola#4+5",6);
 		assertEquals( "Error en el lexema", "#hola#", token.getLexema());
-		assertEquals( "Error en el tipo", Constantes.COMENTARIOS, token.getTipo());
+		assertEquals( "Error en el tipo", ConstantesTipos.COMENTARIOS, token.getTipo());
 		assertEquals( "Error en el índice del siguiente lexema", 12, token.getIndiceSiguiente());
 	}
 
@@ -240,7 +240,7 @@ public class TestAnalizadorLexicoCatlike {
 		analizadorLexico = new AnalizadorLexicoCatlike( );
 		TokenCatlike token = analizadorLexico.extraerComentarios("public#hola4+5",6);
 		assertEquals( "Error en el lexema", "#hola4+5", token.getLexema());
-		assertEquals( "Error en el tipo", Constantes.COMENTARIOSSINCERRAR, token.getTipo());
+		assertEquals( "Error en el tipo", ConstantesTipos.COMENTARIOSSINCERRAR, token.getTipo());
 		assertEquals( "Error en el índice del siguiente lexema", 14, token.getIndiceSiguiente());
 	}
 
@@ -253,7 +253,7 @@ public class TestAnalizadorLexicoCatlike {
 		analizadorLexico = new AnalizadorLexicoCatlike( );
 		TokenCatlike token = analizadorLexico.extraerNoReconocido("94+3@hola",4);
 		assertEquals( "Error en el lexema", "@", token.getLexema());
-		assertEquals( "Error en el tipo", Constantes.NORECONOCIDO, token.getTipo());
+		assertEquals( "Error en el tipo", ConstantesTipos.NORECONOCIDO, token.getTipo());
 		assertEquals( "Error en el índice del siguiente lexema", 5, token.getIndiceSiguiente());
 	}
 

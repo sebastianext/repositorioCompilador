@@ -40,10 +40,10 @@ import javax.swing.table.DefaultTableModel;
 import org.jvnet.substance.SubstanceLookAndFeel;
 import org.jvnet.substance.skin.BusinessBlackSteelSkin;
 
-import co.edu.uniquindio.catlike.AnalizadorLexicoCatlike;
-import co.edu.uniquindio.catlike.ArchivoPrueba;
-import co.edu.uniquindio.catlike.Constantes;
-import co.edu.uniquindio.catlike.TokenCatlike;
+import co.edu.uniquindio.lexico.catlike.AnalizadorLexicoCatlike;
+import co.edu.uniquindio.lexico.catlike.ArchivoPrueba;
+import co.edu.uniquindio.lexico.catlike.ConstantesTipos;
+import co.edu.uniquindio.lexico.catlike.TokenCatlike;
 
 /**
  * This code was edited or generated using CloudGarden's Jigloo
@@ -60,7 +60,7 @@ import co.edu.uniquindio.catlike.TokenCatlike;
 
 public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 
-	
+
 	/**
 	 * Componentes
 	 */
@@ -111,7 +111,7 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 		analizadorLexicoCatlike=new AnalizadorLexicoCatlike();
 		setResizable(false);
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	private void initGUI() {
 		try {
@@ -131,7 +131,7 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 						menu.add(jMenuItemImportarPalabras);
 						jMenuItemImportarPalabras.setText("Importar palabras recervadas");
 						jMenuItemImportarPalabras.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
-						
+
 						jMenuItemImportarPalabras.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent evt) {
 								jMenuItemImportarPalabrasActionPerformed(evt);
@@ -191,10 +191,10 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 					jScrollPaneCodigo = new JScrollPane();
 					jPanelTextEditor.add(jScrollPaneCodigo);
 					jScrollPaneCodigo.setBounds(13, 19, 422, 221);
+
 					{
 						jEditorPaneCodigo = new JEditorPane();
 						jScrollPaneCodigo.setViewportView(jEditorPaneCodigo);
-						
 						jEditorPaneCodigo.setPreferredSize(new java.awt.Dimension(419, 218));
 					}
 				}
@@ -292,7 +292,7 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 					jScrollPaneNoReconocidos.setBounds(12, 23, 418, 179);
 					{
 
-				
+
 						String[]  cabecera={ "Token"};
 						String[][] datos={ };
 						modeloTokensNoReconocidos=new DefaultTableModel(datos,cabecera);
@@ -338,8 +338,8 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 				{
 					token = (TokenCatlike)tokensObtenidos.get(i);
 
-					if(!token.getTipo().equals(Constantes.ESPACIOS)){
-						if (token.getTipo().equals(Constantes.NORECONOCIDO)) {
+					if(!token.getTipo().equals(ConstantesTipos.ESPACIOS)){
+						if (token.getTipo().equals(ConstantesTipos.NORECONOCIDO)) {
 							Object datos[]={token.getLexema()};
 							modeloTokensNoReconocidos.addRow(datos);
 						}else{
@@ -355,7 +355,7 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 			}
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null,"Error inesperado "+e.getMessage(), "Mensaje de Advertencia", JOptionPane.ERROR_MESSAGE);
-			
+
 		}
 	}
 
@@ -374,34 +374,34 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 			token = (TokenCatlike)tokensObtenidos.get(i);
 
 			String lexema=token.getLexema();
-			if (token.getTipo().equals(Constantes.PALABRARESERVADA)) {
+			if (token.getTipo().equals(ConstantesTipos.PALABRARESERVADA)) {
 
 				codigoCompilado+="<b><font color=\"#000066\">"+lexema+"</font></b>"+" ";
 
-			}if (token.getTipo().equals(Constantes.IDENTIFICADOR)) {
+			}if (token.getTipo().equals(ConstantesTipos.IDENTIFICADOR)) {
 
 				codigoCompilado+="<font color=\"#333333\">"+lexema+"</font>"+" ";
 
-			}if (token.getTipo().equals(Constantes.PARENTESISAPERTURA)||
-					token.getTipo().equals(Constantes.PARENTESISCIERRE)) {
+			}if (token.getTipo().equals(ConstantesTipos.PARENTESISAPERTURA)||
+					token.getTipo().equals(ConstantesTipos.PARENTESISCIERRE)) {
 
 				codigoCompilado+="<font color=\"#0000FF\">"+lexema+"</font>"+" ";
 
-			}if (token.getTipo().equals(Constantes.LLAVEAPERTURA)||
-					token.getTipo().equals(Constantes.LLAVECIERRE)) {
+			}if (token.getTipo().equals(ConstantesTipos.LLAVEAPERTURA)||
+					token.getTipo().equals(ConstantesTipos.LLAVECIERRE)) {
 
 				codigoCompilado+="<b><font color=\"#CC33CC\">"+lexema+"</font></b><br>";
 
-			}if(token.getTipo().equals(Constantes.SEPARADORSENTENCIA)){
+			}if(token.getTipo().equals(ConstantesTipos.SEPARADORSENTENCIA)){
 
 				codigoCompilado+="<b><font color=\"#CC33CC\">"+lexema+"</font></b><br>";
 
-			}if (token.getTipo().equals(Constantes.OPERADORRELACIONAL)||
-					token.getTipo().equals(Constantes.OPERADORLOGICO)||
-					token.getTipo().equals(Constantes.OPERADORADITIVO)||
-					token.getTipo().equals(Constantes.OPERADORMULTIPLICATIVO)||
-					token.getTipo().equals(Constantes.OPERADORASIGNACION)||
-					token.getTipo().equals(Constantes.OPERADORRELACIONAL)) {
+			}if (token.getTipo().equals(ConstantesTipos.OPERADORRELACIONAL)||
+					token.getTipo().equals(ConstantesTipos.OPERADORLOGICO)||
+					token.getTipo().equals(ConstantesTipos.OPERADORADITIVO)||
+					token.getTipo().equals(ConstantesTipos.OPERADORMULTIPLICATIVO)||
+					token.getTipo().equals(ConstantesTipos.OPERADORASIGNACION)||
+					token.getTipo().equals(ConstantesTipos.OPERADORRELACIONAL)) {
 				if (lexema.equals("<")) {
 					codigoCompilado+="<font color=\"#996600\">"+"&#60"+"</font>"+" ";
 				}
@@ -414,32 +414,32 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 					codigoCompilado+="<font color=\"#996600\">"+lexema+"</font>"+" ";
 				}
 
-			}if (token.getTipo().equals(Constantes.NORECONOCIDO)) {
+			}if (token.getTipo().equals(ConstantesTipos.NORECONOCIDO)) {
 
 				codigoCompilado+="<b><font color=\"#FF0000\">"+lexema+"</font></b>"+" ";
 
 			}
-			if (token.getTipo().equals(Constantes.COMENTARIOS)) {
+			if (token.getTipo().equals(ConstantesTipos.COMENTARIOS)) {
 
 				codigoCompilado+="<font color=\"#999999\">"+lexema+"</font>"+"<br>";
 
-			}if (token.getTipo().equals(Constantes.COMENTARIOSSINCERRAR)) {
+			}if (token.getTipo().equals(ConstantesTipos.COMENTARIOSSINCERRAR)) {
 
 				codigoCompilado+="<font color=\"#999999\">"+lexema+"</font>"+" ";
 
-			}if (token.getTipo().equals(Constantes.CADENACARACTERES)) {
+			}if (token.getTipo().equals(ConstantesTipos.CADENACARACTERES)) {
 
 				codigoCompilado+="<font color=\"#00CCFF\">"+lexema+"</font>"+" ";
 
-			}if (token.getTipo().equals(Constantes.CADENACARACTERESSINCERRAR)) {
+			}if (token.getTipo().equals(ConstantesTipos.CADENACARACTERESSINCERRAR)) {
 
 				codigoCompilado+="<font color=\"#339900\">"+lexema+"</font>"+" ";
 
-			}if (token.getTipo().equals(Constantes.ENTERO)) {
+			}if (token.getTipo().equals(ConstantesTipos.ENTERO)) {
 
 				codigoCompilado+="<font color=\"#333333\">"+lexema+"</font>"+" ";
 			}
-			if (token.getTipo().equals(Constantes.REAL)) {
+			if (token.getTipo().equals(ConstantesTipos.REAL)) {
 
 				codigoCompilado+="<font color=\"#333333\">"+lexema+"</font>"+" ";
 			}
@@ -486,7 +486,7 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 		diferenciaJava.setVisible(true);
 		diferenciaJava.setLocationRelativeTo(null);
 	}
-	
+
 	private void jMenuItemImportarPalabrasActionPerformed(ActionEvent evt) {
 		JFileChooser fc= new JFileChooser("");
 		fc.setDialogTitle("Importar archivo de palabras recervadas");
@@ -498,7 +498,7 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 
 		}
 	}
-	
+
 	private void jMenuItemVerAutomatasActionPerformed(ActionEvent evt) {
 		Automatas automatas= new Automatas();
 

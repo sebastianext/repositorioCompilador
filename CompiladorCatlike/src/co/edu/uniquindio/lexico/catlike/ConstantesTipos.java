@@ -13,12 +13,12 @@
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * 
  */
-package co.edu.uniquindio.catlike;
+package co.edu.uniquindio.lexico.catlike;
 
 /**
  * Clase que representa un  las constantes  para modelar lo tipos de tokens.
  */
-public class Constantes {
+public class ConstantesTipos {
 
 
 	// -----------------------------------------------------------------
@@ -41,6 +41,7 @@ public class Constantes {
 	final public static String LLAVEAPERTURA = "Llave de apertura";
 	final public static String LLAVECIERRE = "Llave de cierre";
 	final public static String IDENTIFICADOR = "Identificador";
+	final public static String IDENTIFICADORCLASE = "Identificador de clase";
 	final public static String PALABRARESERVADA = "Palabra reservada";
 	final public static String ESPACIOS = "Espacios";
 	final public static String CADENACARACTERES = "Cadena de caracteres";

@@ -13,7 +13,7 @@
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * 
  */
-package co.edu.uniquindio.catlike;
+package co.edu.uniquindio.lexico.catlike;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -168,14 +168,14 @@ public class AnalizadorLexicoCatlike {
 			while (  indiceSiguiente<codigo.length( ) && esDigito(codigo.charAt(indiceSiguiente)) );
 			
 			lexema =  codigo.substring( indice, indiceSiguiente);
-			TokenCatlike token = new TokenCatlike( lexema, Constantes.REAL, indiceSiguiente );
+			TokenCatlike token = new TokenCatlike( lexema, ConstantesTipos.REAL, indiceSiguiente );
 			return token;
 		}
 		
 		lexema =  codigo.substring( indice, indiceSiguiente);
 		// construye el objeto token para retornarlo.
 		// El objeto token se compone del lexema, el tipo y la posición del siguiente token.
-		TokenCatlike token = new TokenCatlike( lexema, Constantes.ENTERO, indiceSiguiente );
+		TokenCatlike token = new TokenCatlike( lexema, ConstantesTipos.ENTERO, indiceSiguiente );
 		return token;
 	}
 	/**
@@ -195,7 +195,7 @@ public class AnalizadorLexicoCatlike {
 
 		// Retorna el token, que se compone del lexema, el tipo del token y 
 		// la posición del siguiente lexema.
-		TokenCatlike token = new TokenCatlike( "+", Constantes.OPERADORADITIVO, indiceSiguiente );
+		TokenCatlike token = new TokenCatlike( "+", ConstantesTipos.OPERADORADITIVO, indiceSiguiente );
 		return token;
 	}
 	/**
@@ -215,7 +215,7 @@ public class AnalizadorLexicoCatlike {
 
 		// Retorna el token, que se compone del lexema, el tipo del token y 
 		// la posición del siguiente lexema.
-		TokenCatlike token = new TokenCatlike( "-", Constantes.OPERADORADITIVO, indiceSiguiente );
+		TokenCatlike token = new TokenCatlike( "-", ConstantesTipos.OPERADORADITIVO, indiceSiguiente );
 		return token;
 	}
 	/**
@@ -235,7 +235,7 @@ public class AnalizadorLexicoCatlike {
 
 		// Retorna el token, que se compone del lexema, el tipo del token y 
 		// la posición del siguiente lexema.
-		TokenCatlike token = new TokenCatlike( "*", Constantes.OPERADORMULTIPLICATIVO, indiceSiguiente );
+		TokenCatlike token = new TokenCatlike( "*", ConstantesTipos.OPERADORMULTIPLICATIVO, indiceSiguiente );
 		return token;
 	}
 	/**
@@ -254,7 +254,7 @@ public class AnalizadorLexicoCatlike {
 
 		// Retorna el token, que se compone del lexema, el tipo del token y 
 		// la posición del siguiente lexema.
-		TokenCatlike token = new TokenCatlike( "/", Constantes.OPERADORMULTIPLICATIVO, indiceSiguiente );
+		TokenCatlike token = new TokenCatlike( "/", ConstantesTipos.OPERADORMULTIPLICATIVO, indiceSiguiente );
 		return token;
 	}
 	/**
@@ -289,7 +289,7 @@ public class AnalizadorLexicoCatlike {
 
 		// construye el objeto token para retornarlo.
 		// El objeto token se compone del lexema, el tipo y la posición del siguiente token.
-		TokenCatlike token = new TokenCatlike( lexema, Constantes.OPERADORLOGICO, indiceSiguiente );
+		TokenCatlike token = new TokenCatlike( lexema, ConstantesTipos.OPERADORLOGICO, indiceSiguiente );
 		return token;
 	}
 	/**
@@ -310,7 +310,7 @@ public class AnalizadorLexicoCatlike {
 
 			// Retorna el token, que se compone del lexema, el tipo del token y 
 			// la posición del siguiente lexema.
-			TokenCatlike token = new TokenCatlike( "(", Constantes.PARENTESISAPERTURA, indiceSiguiente );
+			TokenCatlike token = new TokenCatlike( "(", ConstantesTipos.PARENTESISAPERTURA, indiceSiguiente );
 			return token;
 
 		}else {
@@ -319,7 +319,7 @@ public class AnalizadorLexicoCatlike {
 
 			// Retorna el token, que se compone del lexema, el tipo del token y 
 			// la posición del siguiente lexema.
-			TokenCatlike token = new TokenCatlike( ")", Constantes.PARENTESISCIERRE, indiceSiguiente );
+			TokenCatlike token = new TokenCatlike( ")", ConstantesTipos.PARENTESISCIERRE, indiceSiguiente );
 			return token;
 		}
 	}
@@ -341,7 +341,7 @@ public class AnalizadorLexicoCatlike {
 
 			// Retorna el token, que se compone del lexema, el tipo del token y 
 			// la posición del siguiente lexema.
-			TokenCatlike token = new TokenCatlike( "{", Constantes.LLAVEAPERTURA, indiceSiguiente );
+			TokenCatlike token = new TokenCatlike( "{", ConstantesTipos.LLAVEAPERTURA, indiceSiguiente );
 			return token;
 
 		}else {
@@ -350,7 +350,7 @@ public class AnalizadorLexicoCatlike {
 
 			// Retorna el token, que se compone del lexema, el tipo del token y 
 			// la posición del siguiente lexema.
-			TokenCatlike token = new TokenCatlike( "}", Constantes.LLAVECIERRE, indiceSiguiente );
+			TokenCatlike token = new TokenCatlike( "}", ConstantesTipos.LLAVECIERRE, indiceSiguiente );
 			return token;
 		}
 	}
@@ -376,7 +376,7 @@ public class AnalizadorLexicoCatlike {
 
 				String lexema =  codigo.substring( indice, indiceSiguiente+1);
 				if (lexema.equals("<=")||lexema.equals(">=")||lexema.equals("<>")) {
-					TokenCatlike token = new TokenCatlike( lexema, Constantes.OPERADORRELACIONAL, indiceSiguiente+1 );
+					TokenCatlike token = new TokenCatlike( lexema, ConstantesTipos.OPERADORRELACIONAL, indiceSiguiente+1 );
 					return token;
 				}
 			}
@@ -386,24 +386,24 @@ public class AnalizadorLexicoCatlike {
 		// Copia el entero en la cadena lexema
 		String lexema =  codigo.substring( indice, indiceSiguiente);
 		if (lexema.equals("<")) {
-			TokenCatlike token = new TokenCatlike( lexema, Constantes.OPERADORRELACIONAL, indiceSiguiente );
+			TokenCatlike token = new TokenCatlike( lexema, ConstantesTipos.OPERADORRELACIONAL, indiceSiguiente );
 			return token;
 
 		}if (lexema.equals(">")) {
-			TokenCatlike token = new TokenCatlike( lexema, Constantes.OPERADORRELACIONAL, indiceSiguiente );
+			TokenCatlike token = new TokenCatlike( lexema, ConstantesTipos.OPERADORRELACIONAL, indiceSiguiente );
 			return token;
 
 		}if (lexema.equals("=")) {
-			TokenCatlike token = new TokenCatlike( lexema, Constantes.OPERADORASIGNACION, indiceSiguiente );
+			TokenCatlike token = new TokenCatlike( lexema, ConstantesTipos.OPERADORASIGNACION, indiceSiguiente );
 			return token;
 
 		}if (lexema.equals("$")) {
-			TokenCatlike token = new TokenCatlike( lexema, Constantes.OPERADORRELACIONAL, indiceSiguiente );
+			TokenCatlike token = new TokenCatlike( lexema, ConstantesTipos.OPERADORRELACIONAL, indiceSiguiente );
 			return token;
 		}
 		// construye el objeto token para retornarlo.
 		// El objeto token se compone del lexema, el tipo y la posición del siguiente token.
-		TokenCatlike token = new TokenCatlike( lexema, Constantes.OPERADORRELACIONAL, indiceSiguiente );
+		TokenCatlike token = new TokenCatlike( lexema, ConstantesTipos.OPERADORRELACIONAL, indiceSiguiente );
 		return token;
 	}
 	/**
@@ -422,7 +422,7 @@ public class AnalizadorLexicoCatlike {
 
 		// Retorna el token, que se compone del lexema, el tipo del token y 
 		// la posición del siguiente lexema.
-		TokenCatlike token = new TokenCatlike( ";", Constantes.SEPARADORSENTENCIA, indiceSiguiente );
+		TokenCatlike token = new TokenCatlike( ";", ConstantesTipos.SEPARADORSENTENCIA, indiceSiguiente );
 		return token;
 	}
 	/**
@@ -448,7 +448,7 @@ public class AnalizadorLexicoCatlike {
 
 		// construye el objeto token para retornarlo.
 		// El objeto token se compone del lexema, el tipo y la posición del siguiente token.
-		TokenCatlike token = new TokenCatlike( lexema, Constantes.ESPACIOS, indiceSiguiente );
+		TokenCatlike token = new TokenCatlike( lexema, ConstantesTipos.ESPACIOS, indiceSiguiente );
 		return token;
 	}
 	/**
@@ -465,7 +465,11 @@ public class AnalizadorLexicoCatlike {
 			return null;
 
 		// Halla el índice del siguiente lexema
+		
 		int indiceSiguiente=indice;
+		if (esLetraMayuscula(codigo.charAt(indice))) {
+			
+		}
 		do
 			indiceSiguiente++;
 		while (  indiceSiguiente<codigo.length( ) && (esLetra(codigo.charAt(indiceSiguiente)) || esDigito(codigo.charAt(indiceSiguiente)))  );
@@ -475,7 +479,7 @@ public class AnalizadorLexicoCatlike {
 
 		// construye el objeto token para retornarlo.
 		// El objeto token se compone del lexema, el tipo y la posición del siguiente token.
-		TokenCatlike token = new TokenCatlike( lexema, Constantes.PALABRARESERVADA, indiceSiguiente );
+		TokenCatlike token = new TokenCatlike( lexema, ConstantesTipos.PALABRARESERVADA, indiceSiguiente );
 
 		Properties properties= new Properties();
 		FileInputStream archivo= new FileInputStream(ruta);
@@ -490,8 +494,11 @@ public class AnalizadorLexicoCatlike {
 			if (lexema.equals(properties.getProperty("palabra"+i)))
 				return token;
 		}
-
-		token = new TokenCatlike( lexema, Constantes.IDENTIFICADOR, indiceSiguiente );
+		if (esLetraMayuscula(lexema.charAt(0))) {
+			token = new TokenCatlike( lexema, ConstantesTipos.IDENTIFICADORCLASE, indiceSiguiente );
+			return token;
+		}
+		token = new TokenCatlike( lexema, ConstantesTipos.IDENTIFICADOR, indiceSiguiente );
 		return token;
 	}
 	/**
@@ -501,6 +508,7 @@ public class AnalizadorLexicoCatlike {
 	 * @param indice - posición a partir de la cual se va a intentar extraer el operador logico  - 0<=indice<codigo.length()
 	 * @return el token cadena o NULL, si el token en la posición dada no es una cadena
 	 */
+	
 	public TokenCatlike extraerCadena ( String codigo, int indice){
 
 		if( codigo.charAt(indice) !='¡' )
@@ -513,7 +521,7 @@ public class AnalizadorLexicoCatlike {
 				if (codigo.charAt(indiceSiguiente) =='¡') {
 					indiceSiguiente++;
 					String lexema =  codigo.substring( indice, indiceSiguiente);
-					TokenCatlike token = new TokenCatlike( lexema, Constantes.CADENACARACTERES, indiceSiguiente );
+					TokenCatlike token = new TokenCatlike( lexema, ConstantesTipos.CADENACARACTERES, indiceSiguiente );
 					return token;
 				}
 			}
@@ -522,7 +530,7 @@ public class AnalizadorLexicoCatlike {
 
 		// Copia el entero en la cadena lexema
 		String lexema =  codigo.substring( indice, indiceSiguiente);
-		TokenCatlike token = new TokenCatlike( lexema, Constantes.CADENACARACTERESSINCERRAR, indiceSiguiente );
+		TokenCatlike token = new TokenCatlike( lexema, ConstantesTipos.CADENACARACTERESSINCERRAR, indiceSiguiente );
 		return token;
 	}
 	/**
@@ -544,7 +552,7 @@ public class AnalizadorLexicoCatlike {
 				if (codigo.charAt(indiceSiguiente) =='#') {
 					indiceSiguiente++;
 					String lexema =  codigo.substring( indice, indiceSiguiente);
-					TokenCatlike token = new TokenCatlike( lexema, Constantes.COMENTARIOS, indiceSiguiente );
+					TokenCatlike token = new TokenCatlike( lexema, ConstantesTipos.COMENTARIOS, indiceSiguiente );
 					return token;
 				}
 			}
@@ -553,7 +561,7 @@ public class AnalizadorLexicoCatlike {
 
 		// Copia el entero en la cadena lexema
 		String lexema =  codigo.substring( indice, indiceSiguiente);
-		TokenCatlike token = new TokenCatlike( lexema, Constantes.COMENTARIOSSINCERRAR, indiceSiguiente );
+		TokenCatlike token = new TokenCatlike( lexema, ConstantesTipos.COMENTARIOSSINCERRAR, indiceSiguiente );
 		return token;
 	}
 	/**
@@ -566,7 +574,7 @@ public class AnalizadorLexicoCatlike {
 	public TokenCatlike extraerNoReconocido ( String codigo, int indice){
 		String lexema =  codigo.substring( indice, indice + 1);
 		int indiceSiguiente=indice+1;
-		TokenCatlike token = new TokenCatlike( lexema, Constantes.NORECONOCIDO, indiceSiguiente );
+		TokenCatlike token = new TokenCatlike( lexema, ConstantesTipos.NORECONOCIDO, indiceSiguiente );
 		vectorTokensNoReconocidos.add(token);
 		return token;
 	}
@@ -585,8 +593,17 @@ public class AnalizadorLexicoCatlike {
 	 * @return true o false según el carácter sea una letra  o no
 	 */
 	public boolean esLetra (char caracter ){
-		return ( caracter >= 'a' && caracter <= 'z') || (caracter >= 'A' && caracter <= 'Z');
+		return ( caracter >= 'a' && caracter <= 'z') || esLetraMayuscula(caracter);
 	}
+	/**
+	 * Determina si un carácter es una letra Mayuscula
+	 * @param caracter - Carácter que se va a analizar - caracter!=null,
+	 * @return true o false según el carácter sea una letra  o no
+	 */
+	public boolean esLetraMayuscula (char caracter ){
+		return (caracter >= 'A' && caracter <= 'Z');
+	}
+	
 	/**
 	 * Determina si un carácter es un dígito
 	 * @param caracter - Carácter que se va a analizar - caracter!=null,
