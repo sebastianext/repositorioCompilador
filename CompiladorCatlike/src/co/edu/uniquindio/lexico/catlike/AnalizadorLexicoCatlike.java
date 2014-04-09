@@ -30,9 +30,9 @@ public class AnalizadorLexicoCatlike {
 	// -----------------------------------------------------------------
 	ArrayList<TokenCatlike> vectorTokens;
 	ArrayList<TokenCatlike> vectorTokensNoReconocidos = new ArrayList<TokenCatlike>();
-	
+
 	private String ruta;
-	
+
 	public AnalizadorLexicoCatlike(){
 		ruta="";
 	}
@@ -128,6 +128,11 @@ public class AnalizadorLexicoCatlike {
 		if ( token != null )
 			return token;
 
+
+		// Intenta extraer una palabra recervada
+		token = extraerIdentificardorMetodo( codigo, indice);
+		if ( token != null )
+			return token;
 		// Intenta extraer un comentario
 		token = extraerComentarios( codigo, indice);
 		if ( token != null )
@@ -150,7 +155,7 @@ public class AnalizadorLexicoCatlike {
 	 */
 	public TokenCatlike extraerNumero( String codigo, int indice){
 
-//		&& !esPunto(codigo.charAt(indice))
+		//		&& !esPunto(codigo.charAt(indice))
 		if( !esDigito(codigo.charAt(indice))  )
 			return null;
 
@@ -166,12 +171,12 @@ public class AnalizadorLexicoCatlike {
 			do
 				indiceSiguiente++;
 			while (  indiceSiguiente<codigo.length( ) && esDigito(codigo.charAt(indiceSiguiente)) );
-			
+
 			lexema =  codigo.substring( indice, indiceSiguiente);
 			TokenCatlike token = new TokenCatlike( lexema, ConstantesTipos.REAL, indiceSiguiente );
 			return token;
 		}
-		
+
 		lexema =  codigo.substring( indice, indiceSiguiente);
 		// construye el objeto token para retornarlo.
 		// El objeto token se compone del lexema, el tipo y la posición del siguiente token.
@@ -465,10 +470,10 @@ public class AnalizadorLexicoCatlike {
 			return null;
 
 		// Halla el índice del siguiente lexema
-		
+
 		int indiceSiguiente=indice;
 		if (esLetraMayuscula(codigo.charAt(indice))) {
-			
+
 		}
 		do
 			indiceSiguiente++;
@@ -483,10 +488,10 @@ public class AnalizadorLexicoCatlike {
 
 		Properties properties= new Properties();
 		FileInputStream archivo= new FileInputStream(ruta);
-		
+
 		properties.load(archivo);
 		archivo.close();
-		
+
 		int cantidadPalabras = Integer.parseInt(properties.getProperty("palabras.cantidad"));
 
 		for (int i = 1; i <= cantidadPalabras; i++) {
@@ -501,6 +506,39 @@ public class AnalizadorLexicoCatlike {
 		token = new TokenCatlike( lexema, ConstantesTipos.IDENTIFICADOR, indiceSiguiente );
 		return token;
 	}
+
+	/**
+	 * Intenta extraer una palabra reservada de la cadena de codigo a partir de la posición indice,
+	 * basándose en el Autómata
+	 * @param codigo - código al cual se le va a intentar extraer una palabra reservada - codigo!=null
+	 * @param indice - posición a partir de la cual se va a intentar extraer el operador logico  - 0<=indice<codigo.length()
+	 * @return el token  palabra reservada o NULL, si el token en la posición dada no es una palabra reservada
+	 * @throws IOException 
+	 */
+	public TokenCatlike extraerIdentificardorMetodo(String codigo, int indice) {
+
+		if( !esGuion(codigo.charAt(indice)))
+			return null;
+
+		// Halla el índice del siguiente lexema
+
+		int indiceSiguiente=indice;
+
+		do
+			indiceSiguiente++;
+		while (  indiceSiguiente<codigo.length( ) && (esLetra(codigo.charAt(indiceSiguiente)) || esDigito(codigo.charAt(indiceSiguiente)))  );
+
+		// Copia el entero en la cadena lexema
+		String lexema =  codigo.substring( indice, indiceSiguiente);
+
+		// construye el objeto token para retornarlo.
+		// El objeto token se compone del lexema, el tipo y la posición del siguiente token.
+		TokenCatlike token = new TokenCatlike( lexema, ConstantesTipos.IDENTIFICADORMETODO, indiceSiguiente );
+		return token;
+
+	}
+
+
 	/**
 	 * Intenta extraer una cadena del codigo a partir de la posición indice,
 	 * basándose en el Autómata
@@ -508,7 +546,7 @@ public class AnalizadorLexicoCatlike {
 	 * @param indice - posición a partir de la cual se va a intentar extraer el operador logico  - 0<=indice<codigo.length()
 	 * @return el token cadena o NULL, si el token en la posición dada no es una cadena
 	 */
-	
+
 	public TokenCatlike extraerCadena ( String codigo, int indice){
 
 		if( codigo.charAt(indice) !='¡' )
@@ -603,7 +641,7 @@ public class AnalizadorLexicoCatlike {
 	public boolean esLetraMayuscula (char caracter ){
 		return (caracter >= 'A' && caracter <= 'Z');
 	}
-	
+
 	/**
 	 * Determina si un carácter es un dígito
 	 * @param caracter - Carácter que se va a analizar - caracter!=null,
@@ -685,6 +723,14 @@ public class AnalizadorLexicoCatlike {
 		return  caracter == '#' ;
 	}
 	/**
+	 * Determina si un caracter es un numeral #.
+	 * @param caracter - Carácter que se va a analizar - caracter!=null,
+	 * @return true o false según el carácter sea un numeral o no
+	 */
+	public boolean esGuion (char caracter ){
+		return  caracter == '_' ;
+	}
+	/**
 	 * Determina si un caracter es un signo determinado.
 	 * @param caracter - Carácter que se va a analizar - caracter!=null,
 	 * @return true o false según el carácter sea un signo determinado o no
@@ -743,6 +789,6 @@ public class AnalizadorLexicoCatlike {
 	public void setRuta(String ruta) {
 		this.ruta = ruta;
 	}
-	
-	
+
+
 }

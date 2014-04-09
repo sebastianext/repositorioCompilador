@@ -12,13 +12,13 @@ import javax.swing.tree.DefaultMutableTreeNode;
  *
  */
 public class CuerpoClase implements ISintactica {
-	
+
 	private ArrayList<DeclaracionVariable> bloqueVariables;
 	private ArrayList<DeclaracionMetodo> bloqueMetodos;
 
-	
-	
-	
+
+
+
 	public CuerpoClase(ArrayList<DeclaracionVariable> bloqueVariables,ArrayList<DeclaracionMetodo> bloqueMetodos) {
 		this.bloqueVariables = bloqueVariables;
 		this.bloqueMetodos = bloqueMetodos;
@@ -31,9 +31,13 @@ public class CuerpoClase implements ISintactica {
 	 */
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
-		// TODO Auto-generated method stub
-		return null;
+		DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Cuerpo Clase");
+		for (DeclaracionVariable declaracionVariable : bloqueVariables) {
+			raiz.add(declaracionVariable.getArbolVisual());
+		}
+		for (DeclaracionMetodo declaracionMetodo : bloqueMetodos) {
+			raiz.add(declaracionMetodo.getArbolVisual());
+		}
+		return raiz;	
 	}
-	
-
 }

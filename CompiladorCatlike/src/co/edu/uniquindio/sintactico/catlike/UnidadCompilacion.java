@@ -24,8 +24,9 @@ public class UnidadCompilacion implements ISintactica {
 	 */
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
-		
-		return null;
+		DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Unidad de Compilación");
+		raiz.add(declaracionClase.getArbolVisual());
+		return raiz;
 	}
 
 	/**
@@ -44,5 +45,5 @@ public class UnidadCompilacion implements ISintactica {
 		this.declaracionClase = declaracionClase;
 	}
 
-	
+
 }

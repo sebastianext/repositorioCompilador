@@ -41,6 +41,7 @@ public class ConstantesTipos {
 	final public static String LLAVEAPERTURA = "Llave de apertura";
 	final public static String LLAVECIERRE = "Llave de cierre";
 	final public static String IDENTIFICADOR = "Identificador";
+	final public static String IDENTIFICADORMETODO = "Identificador de metodo";
 	final public static String IDENTIFICADORCLASE = "Identificador de clase";
 	final public static String PALABRARESERVADA = "Palabra reservada";
 	final public static String ESPACIOS = "Espacios";

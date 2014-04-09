@@ -31,7 +31,7 @@ public class DeclaracionClase implements ISintactica {
 
 
 
-	
+
 
 
 
@@ -96,8 +96,30 @@ public class DeclaracionClase implements ISintactica {
 	 */
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
-		// TODO Auto-generated method stub
-		return null;
+		DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Declaracion Clase");
+		raiz.add(new DefaultMutableTreeNode("Nombre:"+identificador.getLexema()));
+		raiz.add(cuerpoClase.getArbolVisual());
+		return raiz;	
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

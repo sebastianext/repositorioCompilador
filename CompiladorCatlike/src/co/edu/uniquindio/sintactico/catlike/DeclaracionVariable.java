@@ -5,12 +5,31 @@ package co.edu.uniquindio.sintactico.catlike;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import co.edu.uniquindio.lexico.catlike.TokenCatlike;
+
 /**
  * @author Sebastian
  *
  */
 public class DeclaracionVariable implements ISintactica {
 	
+	private TokenCatlike modificadorAcceso;
+	private TokenCatlike tipo;
+	private TokenCatlike identificador;
+
+
+	/**
+	 * 
+	 * Metodo Costructor que inicializa las variables
+	 * @param tipo
+	 * @param identificador
+	 */
+	public DeclaracionVariable(TokenCatlike modificadorAcceso,TokenCatlike tipo, TokenCatlike identificador) {
+		this.modificadorAcceso=modificadorAcceso;
+		this.tipo = tipo;
+		this.identificador = identificador;
+	}
+
 	
 
 	/* (non-Javadoc)
@@ -18,8 +37,16 @@ public class DeclaracionVariable implements ISintactica {
 	 */
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
-		// TODO Auto-generated method stub
-		return null;
+		DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Declaracion de Variable");
+		if (modificadorAcceso.getLexema()==null) {
+			raiz.add(new DefaultMutableTreeNode("Modificador de Acceso: default"));
+		}else {
+			raiz.add(new DefaultMutableTreeNode("Modificador de Acceso:"+modificadorAcceso.getLexema()));
+		}
+		raiz.add(new DefaultMutableTreeNode("Tipo: "+tipo.getLexema()));
+		raiz.add(new DefaultMutableTreeNode("Nombre: "+identificador.getLexema()));
+	
+		return raiz;
 	}
 
 }

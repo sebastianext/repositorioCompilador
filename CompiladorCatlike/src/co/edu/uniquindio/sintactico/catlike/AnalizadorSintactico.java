@@ -75,19 +75,27 @@ public class AnalizadorSintactico {
 
 	public DeclaracionVariable esDeclaracionVariable() {
 		TokenCatlike tipoDato=null;
+		TokenCatlike modificadorAcceso=null;
 		TokenCatlike identificador=null;
+		
 		
 		if (tokenActual.getLexema().equals("public")||
 			tokenActual.getLexema().equals("private")) {
-			tipoDato=tokenActual;
+			modificadorAcceso=tokenActual;
 			darSiguienteToken();
 		}
+//		if (true) {
+//			tipoDato=tokenActual;
+//			darSiguienteToken();
+//		}else {
+//			return null;
+//		}
 		if (tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADOR)) {
 			identificador=tokenActual;
 			darSiguienteToken();
 		}
 		if (tokenActual.getLexema().equals(ConstantesTipos.SEPARADORSENTENCIA)) {
-			return new DeclaracionVariable();
+			return new DeclaracionVariable(modificadorAcceso,tipoDato, identificador);
 		}else {
 			//manejo de error;
 		}
@@ -96,8 +104,31 @@ public class AnalizadorSintactico {
 	}
 
 	public DeclaracionMetodo esDeclaracionMetodo() {
-		// TODO Auto-generated method stub
+		TokenCatlike tipoDato=null;
+		TokenCatlike modificadorAcceso=null;
+		TokenCatlike identificador=null;
+		if (tokenActual.getLexema().equals("public")||
+			tokenActual.getLexema().equals("private")) {
+				modificadorAcceso=tokenActual;
+				darSiguienteToken();
+		}
+//		if (true) {
+//			tipoDato=tokenActual;
+//			darSiguienteToken();
+//		}else {
+//			return null;
+//		}
+		if (tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADORMETODO)) {
+			identificador=tokenActual;
+			darSiguienteToken();
+		}else {
+			//manejo de error
+		}
+		if (tokenActual.getLexema().equals(ConstantesTipos.PARENTESISAPERTURA)) {
+			
+		}
 		return null;
+		
 	}
 	public CuerpoMetodo esCuerpoMetodo() {
 		// TODO Auto-generated method stub
@@ -135,7 +166,7 @@ public class AnalizadorSintactico {
 	}
 
 	public SentenciaAsignacion esSentenciaAsignacion() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -178,8 +209,16 @@ public class AnalizadorSintactico {
 	}
 
 	public ArrayList<DeclaracionMetodo> esBloqueMetodos() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		ArrayList<DeclaracionMetodo> bloqueMetodos = new ArrayList<DeclaracionMetodo>();
+		DeclaracionMetodo declaracionMetodo = esDeclaracionMetodo();
+		while(declaracionMetodo!=null)
+		{
+			bloqueMetodos.add(declaracionMetodo);
+			declaracionMetodo = esDeclaracionMetodo();
+		}
+		return bloqueMetodos;
+		
 	}
 
 
@@ -238,24 +277,5 @@ public class AnalizadorSintactico {
 	public void setUnidadCompilacion(UnidadCompilacion unidadCompilacion) {
 		this.unidadCompilacion = unidadCompilacion;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
