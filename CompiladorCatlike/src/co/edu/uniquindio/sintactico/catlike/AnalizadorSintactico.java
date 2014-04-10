@@ -41,6 +41,7 @@ public class AnalizadorSintactico {
 
 	public DeclaracionClase esDeclaracionClase() {
 		TokenCatlike identificador=null;
+	
 		if (tokenActual.getLexema().equals("public"))
 			darSiguienteToken();
 		if (tokenActual.getLexema().equals("class"))
@@ -63,6 +64,7 @@ public class AnalizadorSintactico {
 			return null;
 		}
 
+		
 
 	}
 
@@ -74,8 +76,8 @@ public class AnalizadorSintactico {
 	}
 
 	public DeclaracionVariable esDeclaracionVariable() {
-		TokenCatlike tipoDato=null;
 		TokenCatlike modificadorAcceso=null;
+		TokenCatlike tipoDato=null;
 		TokenCatlike identificador=null;
 		
 		
@@ -95,17 +97,19 @@ public class AnalizadorSintactico {
 			darSiguienteToken();
 		}
 		if (tokenActual.getLexema().equals(ConstantesTipos.SEPARADORSENTENCIA)) {
+			darSiguienteToken();
 			return new DeclaracionVariable(modificadorAcceso,tipoDato, identificador);
 		}else {
 			//manejo de error;
 		}
 		
+		
 		return null;
 	}
 
 	public DeclaracionMetodo esDeclaracionMetodo() {
-		TokenCatlike tipoDato=null;
 		TokenCatlike modificadorAcceso=null;
+		TokenCatlike tipoDato=null;
 		TokenCatlike identificador=null;
 		if (tokenActual.getLexema().equals("public")||
 			tokenActual.getLexema().equals("private")) {
@@ -125,9 +129,26 @@ public class AnalizadorSintactico {
 			//manejo de error
 		}
 		if (tokenActual.getLexema().equals(ConstantesTipos.PARENTESISAPERTURA)) {
-			
+			darSiguienteToken();
 		}
-		return null;
+		ArrayList<Parametro> listaParametros=esListaParametros();
+		
+		if (tokenActual.getLexema().equals(ConstantesTipos.PARENTESISCIERRE)) {
+			darSiguienteToken();
+		}else {
+			//manejo de error
+			return null;
+		}
+		
+		CuerpoMetodo cuerpoMetodo= esCuerpoMetodo();
+		if (cuerpoMetodo!=null) {
+			darSiguienteToken();
+			return new DeclaracionMetodo(modificadorAcceso,tipoDato, identificador,cuerpoMetodo);
+		}else {
+			//manejo de error
+			return null;
+		}
+		
 		
 	}
 	public CuerpoMetodo esCuerpoMetodo() {
@@ -135,14 +156,32 @@ public class AnalizadorSintactico {
 		return null;
 	}
 
-	public ListaParametros esListaParametros() {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Parametro> esListaParametros() {
+		ArrayList<Parametro> listaParametros = new ArrayList<Parametro>();
+		Parametro parametro = esParametro();
+		while(parametro!=null)
+		{
+			listaParametros.add(parametro);
+			parametro = esParametro();
+		}
+		return listaParametros;
 	}
 
 	public Parametro esParametro() {
-		// TODO Auto-generated method stub
-		return null;
+		TokenCatlike tipo=null;
+		TokenCatlike identificador=null;
+		//		if (true) {
+		//			//tipo
+		//		}else{
+		//			
+		//		}
+		if (tokenActual.getLexema().equals(ConstantesTipos.IDENTIFICADOR)) {
+			identificador=tokenActual;
+			darSiguienteToken();
+			return new Parametro(tipo, identificador);
+		}else {
+			return null;
+		}
 	}
 	public ListaSentencias esListaSentencias() {
 		// TODO Auto-generated method stub
@@ -166,7 +205,7 @@ public class AnalizadorSintactico {
 	}
 
 	public SentenciaAsignacion esSentenciaAsignacion() {
-		
+		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -176,8 +215,33 @@ public class AnalizadorSintactico {
 	}
 
 	public ExpresionRelacional esExpresionRelacional() {
-		// TODO Auto-generated method stub
-		return null;
+		TokenCatlike expresionIz=null;
+		TokenCatlike operadorRelacional=null;
+		TokenCatlike expresionDer=null;
+		
+		if (tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADOR)||
+			tokenActual.getTipo().equals(ConstantesTipos.ENTERO)) {
+			expresionIz=tokenActual;
+			darSiguienteToken();	
+		}else {
+			return null;
+		}
+		if (tokenActual.getTipo().equals(ConstantesTipos.OPERADORRELACIONAL)) {
+			operadorRelacional=tokenActual;
+			darSiguienteToken();
+		}else {
+			return null;
+		}
+		if (tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADOR)||
+			tokenActual.getTipo().equals(ConstantesTipos.ENTERO)) {
+			expresionDer=tokenActual;
+			darSiguienteToken();
+			return new ExpresionRelacional(expresionIz, operadorRelacional, expresionDer);
+		}else {
+			//manejo de error
+			return null;
+		}
+			
 	}
 
 	public Return esReturn() {
@@ -186,7 +250,18 @@ public class AnalizadorSintactico {
 	}
 
 	public Break esBreak() {
-		// TODO Auto-generated method stub
+		TokenCatlike breaK=null;
+		if (tokenActual.getLexema().equals("break")) {
+			breaK=tokenActual;
+			darSiguienteToken();
+		}else{
+			return null;
+		}
+		if (tokenActual.getTipo().equals(ConstantesTipos.SEPARADORSENTENCIA)) {
+			return new Break(breaK);
+		}else{
+			//manejar error
+		}
 		return null;
 	}
 

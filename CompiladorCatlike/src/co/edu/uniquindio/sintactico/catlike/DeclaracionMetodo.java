@@ -16,6 +16,7 @@ public class DeclaracionMetodo implements ISintactica {
 	private TokenCatlike modificadorAcceso;
 	private TokenCatlike tipo;
 	private TokenCatlike identificador;
+	private CuerpoMetodo cuerpoMetodo;
 
 
 	/**
@@ -24,10 +25,11 @@ public class DeclaracionMetodo implements ISintactica {
 	 * @param tipo
 	 * @param identificador
 	 */
-	public DeclaracionMetodo(TokenCatlike modificadorAcceso,TokenCatlike tipo, TokenCatlike identificador) {
+	public DeclaracionMetodo(TokenCatlike modificadorAcceso,TokenCatlike tipo, TokenCatlike identificador,CuerpoMetodo cuerpoMetodo) {
 		this.modificadorAcceso=modificadorAcceso;
 		this.tipo = tipo;
 		this.identificador = identificador;
+		this.cuerpoMetodo=cuerpoMetodo;
 	}
 
 
