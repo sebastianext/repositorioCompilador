@@ -12,7 +12,7 @@ import co.edu.uniquindio.lexico.catlike.TokenCatlike;
  *
  */
 public class Break implements ISintactica {
-	
+
 	private TokenCatlike breaK;
 
 
@@ -28,8 +28,8 @@ public class Break implements ISintactica {
 	 */
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return	new DefaultMutableTreeNode("Break");
 	}
 
 }

@@ -8,7 +8,7 @@
  * Asignatura: Compiladores
  * Aplicacion: AnalizadorLexico
  * @author Johan Sebastian Quintero Orozco
- * @vesion 1.0
+ * @vesion 2.0
  * 
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * 

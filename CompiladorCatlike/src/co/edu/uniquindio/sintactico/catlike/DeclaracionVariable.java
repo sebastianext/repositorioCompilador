@@ -16,6 +16,7 @@ public class DeclaracionVariable implements ISintactica {
 	private TokenCatlike modificadorAcceso;
 	private TokenCatlike tipo;
 	private TokenCatlike identificador;
+	private TokenCatlike separadorSentencia;
 
 
 	/**
@@ -24,10 +25,11 @@ public class DeclaracionVariable implements ISintactica {
 	 * @param tipo
 	 * @param identificador
 	 */
-	public DeclaracionVariable(TokenCatlike modificadorAcceso,TokenCatlike tipo, TokenCatlike identificador) {
+	public DeclaracionVariable(TokenCatlike modificadorAcceso,TokenCatlike tipo, TokenCatlike identificador, TokenCatlike separadorSentencia) {
 		this.modificadorAcceso=modificadorAcceso;
 		this.tipo = tipo;
 		this.identificador = identificador;
+		this.separadorSentencia=separadorSentencia;
 	}
 
 	

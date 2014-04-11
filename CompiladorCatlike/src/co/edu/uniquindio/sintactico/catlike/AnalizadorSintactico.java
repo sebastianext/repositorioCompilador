@@ -5,6 +5,9 @@ package co.edu.uniquindio.sintactico.catlike;
 
 import java.util.ArrayList;
 
+import org.omg.PortableInterceptor.ForwardRequest;
+
+import co.edu.uniquindio.lexico.catlike.ConstantesLexema;
 import co.edu.uniquindio.lexico.catlike.ConstantesTipos;
 import co.edu.uniquindio.lexico.catlike.TokenCatlike;
 
@@ -28,6 +31,7 @@ public class AnalizadorSintactico {
 		indice = 0;
 		tokenActual = listaSimbolosLexicos.get(indice);
 		unidadCompilacion = esUnidadCompilacion();
+
 	}
 
 	public UnidadCompilacion esUnidadCompilacion()
@@ -36,21 +40,25 @@ public class AnalizadorSintactico {
 		if (declaracionClase!=null) {
 			return new UnidadCompilacion(declaracionClase);
 		}
+
 		return null;
 	}
 
 	public DeclaracionClase esDeclaracionClase() {
 		TokenCatlike identificador=null;
-	
-		if (tokenActual.getLexema().equals("public"))
+
+		if (tokenActual.getLexema().equals(ConstantesLexema.PUBLIC)&&
+				tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA))
 			darSiguienteToken();
-		if (tokenActual.getLexema().equals("class"))
+		if (tokenActual.getLexema().equals(ConstantesLexema.CLASS)&&
+				tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA))
 			darSiguienteToken();
 		else
 			return null;
 		if (tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADORCLASE)) {
 			identificador=tokenActual;
 			darSiguienteToken();
+
 		}else {
 			//manejo de error
 		}
@@ -63,65 +71,90 @@ public class AnalizadorSintactico {
 			//manejo de erro
 			return null;
 		}
-
-		
-
 	}
 
 	public CuerpoClase esCuerpoClase() {
+		TokenCatlike llaveApertura=null;
+		TokenCatlike llaveCierre=null;
+		if (tokenActual.getTipo().equals(ConstantesTipos.LLAVEAPERTURA)) {
+			llaveApertura=tokenActual;
+			darSiguienteToken();
+		}
+		else {
+			//recupercion de error
+		}
 		ArrayList<DeclaracionVariable> bloqueVariables= esBloqueVariables();
 		ArrayList<DeclaracionMetodo> bloqueMetodos= esBloqueMetodos();
-
-		return new CuerpoClase(bloqueVariables, bloqueMetodos);
+		
+		if (tokenActual.getTipo().equals(ConstantesTipos.LLAVEAPERTURA)) {
+			llaveApertura=tokenActual;
+			darSiguienteToken();
+			return new CuerpoClase(llaveApertura, llaveCierre, bloqueVariables, bloqueMetodos);
+		}
+		else {
+			//recupercion de error
+			return null;
+		}
+		
+		
 	}
 
 	public DeclaracionVariable esDeclaracionVariable() {
+		
 		TokenCatlike modificadorAcceso=null;
 		TokenCatlike tipoDato=null;
 		TokenCatlike identificador=null;
+		TokenCatlike separadorSentenica=null;
 		
-		
-		if (tokenActual.getLexema().equals("public")||
-			tokenActual.getLexema().equals("private")) {
+		if (tokenActual.getLexema().equals(ConstantesLexema.PUBLIC)&&
+				tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA)||
+				tokenActual.getLexema().equals(ConstantesLexema.PRIVATE)&&
+				tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA)) {
 			modificadorAcceso=tokenActual;
 			darSiguienteToken();
 		}
-//		if (true) {
-//			tipoDato=tokenActual;
-//			darSiguienteToken();
-//		}else {
-//			return null;
-//		}
+		if(esTipoVariable()) {
+			tipoDato=tokenActual;
+			darSiguienteToken();
+		}else {
+			return null;
+		}
 		if (tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADOR)) {
 			identificador=tokenActual;
 			darSiguienteToken();
 		}
 		if (tokenActual.getLexema().equals(ConstantesTipos.SEPARADORSENTENCIA)) {
+			separadorSentenica= tokenActual;
 			darSiguienteToken();
-			return new DeclaracionVariable(modificadorAcceso,tipoDato, identificador);
+			return new DeclaracionVariable(modificadorAcceso,tipoDato, identificador,separadorSentenica);
 		}else {
 			//manejo de error;
 		}
-		
-		
+
+
 		return null;
 	}
 
 	public DeclaracionMetodo esDeclaracionMetodo() {
 		TokenCatlike modificadorAcceso=null;
-		TokenCatlike tipoDato=null;
+		TokenCatlike tipo=null;
 		TokenCatlike identificador=null;
-		if (tokenActual.getLexema().equals("public")||
-			tokenActual.getLexema().equals("private")) {
-				modificadorAcceso=tokenActual;
-				darSiguienteToken();
+		TokenCatlike parentesisApertura=null;
+		TokenCatlike parentesisCierre=null;
+		
+		if (tokenActual.getLexema().equals(ConstantesLexema.PUBLIC)&&
+				tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA)||
+				tokenActual.getLexema().equals(ConstantesLexema.PRIVATE)&&
+				tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA)) {
+			modificadorAcceso=tokenActual;
+			darSiguienteToken();
 		}
-//		if (true) {
-//			tipoDato=tokenActual;
-//			darSiguienteToken();
-//		}else {
-//			return null;
-//		}
+		if (esTipoMetodo()) {
+			tipo=tokenActual;
+			darSiguienteToken();
+		}else {
+			return null;
+		}
 		if (tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADORMETODO)) {
 			identificador=tokenActual;
 			darSiguienteToken();
@@ -129,27 +162,29 @@ public class AnalizadorSintactico {
 			//manejo de error
 		}
 		if (tokenActual.getLexema().equals(ConstantesTipos.PARENTESISAPERTURA)) {
+			parentesisApertura=tokenActual;
 			darSiguienteToken();
 		}
 		ArrayList<Parametro> listaParametros=esListaParametros();
-		
+
 		if (tokenActual.getLexema().equals(ConstantesTipos.PARENTESISCIERRE)) {
+			parentesisCierre=tokenActual;
 			darSiguienteToken();
 		}else {
 			//manejo de error
 			return null;
-		}
-		
+		};
+
 		CuerpoMetodo cuerpoMetodo= esCuerpoMetodo();
 		if (cuerpoMetodo!=null) {
 			darSiguienteToken();
-			return new DeclaracionMetodo(modificadorAcceso,tipoDato, identificador,cuerpoMetodo);
+			return new DeclaracionMetodo(modificadorAcceso, tipo, identificador, parentesisApertura,listaParametros, parentesisCierre, cuerpoMetodo);
 		}else {
 			//manejo de error
 			return null;
 		}
-		
-		
+
+
 	}
 	public CuerpoMetodo esCuerpoMetodo() {
 		// TODO Auto-generated method stub
@@ -170,11 +205,12 @@ public class AnalizadorSintactico {
 	public Parametro esParametro() {
 		TokenCatlike tipo=null;
 		TokenCatlike identificador=null;
-		//		if (true) {
-		//			//tipo
-		//		}else{
-		//			
-		//		}
+		if (esTipoVariable()) {
+			tipo=tokenActual;
+			darSiguienteToken();
+		}else{
+			return null;
+		}
 		if (tokenActual.getLexema().equals(ConstantesTipos.IDENTIFICADOR)) {
 			identificador=tokenActual;
 			darSiguienteToken();
@@ -196,7 +232,7 @@ public class AnalizadorSintactico {
 		return null;
 	}
 	public SentenciaSi esSentenciaSi() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 	public CuerpoSi esCuerpoSi() {
@@ -218,9 +254,9 @@ public class AnalizadorSintactico {
 		TokenCatlike expresionIz=null;
 		TokenCatlike operadorRelacional=null;
 		TokenCatlike expresionDer=null;
-		
+
 		if (tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADOR)||
-			tokenActual.getTipo().equals(ConstantesTipos.ENTERO)) {
+				tokenActual.getTipo().equals(ConstantesTipos.ENTERO)) {
 			expresionIz=tokenActual;
 			darSiguienteToken();	
 		}else {
@@ -233,7 +269,7 @@ public class AnalizadorSintactico {
 			return null;
 		}
 		if (tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADOR)||
-			tokenActual.getTipo().equals(ConstantesTipos.ENTERO)) {
+				tokenActual.getTipo().equals(ConstantesTipos.ENTERO)) {
 			expresionDer=tokenActual;
 			darSiguienteToken();
 			return new ExpresionRelacional(expresionIz, operadorRelacional, expresionDer);
@@ -241,7 +277,7 @@ public class AnalizadorSintactico {
 			//manejo de error
 			return null;
 		}
-			
+
 	}
 
 	public Return esReturn() {
@@ -280,11 +316,11 @@ public class AnalizadorSintactico {
 			declaracionVariable = esDeclaracionVariable();
 		}
 		return bloqueVariables;
-	
+
 	}
 
 	public ArrayList<DeclaracionMetodo> esBloqueMetodos() {
-		
+
 		ArrayList<DeclaracionMetodo> bloqueMetodos = new ArrayList<DeclaracionMetodo>();
 		DeclaracionMetodo declaracionMetodo = esDeclaracionMetodo();
 		while(declaracionMetodo!=null)
@@ -293,13 +329,33 @@ public class AnalizadorSintactico {
 			declaracionMetodo = esDeclaracionMetodo();
 		}
 		return bloqueMetodos;
-		
+
 	}
 
 
 
 
+	public boolean esTipoVariable(){
 
+		if (tokenActual.getLexema().equals(ConstantesLexema.INT)&&
+				tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA)||
+				tokenActual.getLexema().equals(ConstantesLexema.DOUBLE)&&
+				tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA)||
+				tokenActual.getLexema().equals(ConstantesLexema.BOOLEAN)&&
+				tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA)) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean esTipoMetodo(){
+
+		if (esTipoVariable()||tokenActual.getLexema().equals(ConstantesLexema.VOID)&&
+				tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA)) {
+			return true;
+		}
+		return false;
+	}
 
 
 

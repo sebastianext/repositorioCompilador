@@ -32,8 +32,12 @@ public class Parametro implements ISintactica {
 	 */
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
-		// TODO Auto-generated method stub
-		return null;
+		DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Parametro");
+		
+		raiz.add(new DefaultMutableTreeNode("Tipo: "+tipo.getLexema()));
+		raiz.add(new DefaultMutableTreeNode("Nombre: "+identificador.getLexema()));
+	
+		return raiz;
 	}
 
 }
