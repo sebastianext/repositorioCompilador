@@ -12,6 +12,7 @@ import co.edu.uniquindio.lexico.catlike.TokenCatlike;
  *
  */
 public class ExpresionRelacional implements ISintactica {
+	
 	private TokenCatlike expresionIz;
 	private TokenCatlike operadorRelacional;
 	private TokenCatlike expresionDer;

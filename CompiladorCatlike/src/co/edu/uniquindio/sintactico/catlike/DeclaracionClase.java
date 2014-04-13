@@ -13,6 +13,7 @@ import co.edu.uniquindio.lexico.catlike.TokenCatlike;
  */
 public class DeclaracionClase implements ISintactica {
 
+	private TokenCatlike modificadorAcceso;
 	private TokenCatlike identificador;
 
 	private CuerpoClase cuerpoClase;
@@ -24,7 +25,8 @@ public class DeclaracionClase implements ISintactica {
 	 * @param identificador
 	 * @param cuerpoClase
 	 */
-	public DeclaracionClase(TokenCatlike identificador, CuerpoClase cuerpoClase) {
+	public DeclaracionClase(TokenCatlike modificadorAcceso,TokenCatlike identificador, CuerpoClase cuerpoClase) {
+		this.modificadorAcceso=modificadorAcceso;
 		this.identificador = identificador;
 		this.cuerpoClase = cuerpoClase;
 	}

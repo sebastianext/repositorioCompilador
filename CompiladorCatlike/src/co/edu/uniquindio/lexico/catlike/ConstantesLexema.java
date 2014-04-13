@@ -29,4 +29,6 @@ public class ConstantesLexema {
 	final public static String INT = "int";
 	final public static String DOUBLE = "double";
 	final public static String VOID = "void";
+	final public static String IF = "if";
+	final public static String FOR = "for";
 }

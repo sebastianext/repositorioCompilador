@@ -45,11 +45,14 @@ public class AnalizadorSintactico {
 	}
 
 	public DeclaracionClase esDeclaracionClase() {
+
+		TokenCatlike modificadorAcceso=null;
 		TokenCatlike identificador=null;
 
 		if (tokenActual.getLexema().equals(ConstantesLexema.PUBLIC)&&
 				tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA))
-			darSiguienteToken();
+			modificadorAcceso=tokenActual;
+		darSiguienteToken();
 		if (tokenActual.getLexema().equals(ConstantesLexema.CLASS)&&
 				tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA))
 			darSiguienteToken();
@@ -66,7 +69,7 @@ public class AnalizadorSintactico {
 
 		if (cuerpoClase!=null) {
 			darSiguienteToken();
-			return new DeclaracionClase(identificador, cuerpoClase);
+			return new DeclaracionClase(modificadorAcceso,identificador, cuerpoClase);
 		}else {
 			//manejo de erro
 			return null;
@@ -85,7 +88,7 @@ public class AnalizadorSintactico {
 		}
 		ArrayList<DeclaracionVariable> bloqueVariables= esBloqueVariables();
 		ArrayList<DeclaracionMetodo> bloqueMetodos= esBloqueMetodos();
-		
+
 		if (tokenActual.getTipo().equals(ConstantesTipos.LLAVEAPERTURA)) {
 			llaveApertura=tokenActual;
 			darSiguienteToken();
@@ -95,17 +98,17 @@ public class AnalizadorSintactico {
 			//recupercion de error
 			return null;
 		}
-		
-		
+
+
 	}
 
 	public DeclaracionVariable esDeclaracionVariable() {
-		
+
 		TokenCatlike modificadorAcceso=null;
 		TokenCatlike tipoDato=null;
 		TokenCatlike identificador=null;
 		TokenCatlike separadorSentenica=null;
-		
+
 		if (tokenActual.getLexema().equals(ConstantesLexema.PUBLIC)&&
 				tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA)||
 				tokenActual.getLexema().equals(ConstantesLexema.PRIVATE)&&
@@ -123,7 +126,7 @@ public class AnalizadorSintactico {
 			identificador=tokenActual;
 			darSiguienteToken();
 		}
-		if (tokenActual.getLexema().equals(ConstantesTipos.SEPARADORSENTENCIA)) {
+		if (tokenActual.getTipo().equals(ConstantesTipos.SEPARADORSENTENCIA)) {
 			separadorSentenica= tokenActual;
 			darSiguienteToken();
 			return new DeclaracionVariable(modificadorAcceso,tipoDato, identificador,separadorSentenica);
@@ -141,7 +144,7 @@ public class AnalizadorSintactico {
 		TokenCatlike identificador=null;
 		TokenCatlike parentesisApertura=null;
 		TokenCatlike parentesisCierre=null;
-		
+
 		if (tokenActual.getLexema().equals(ConstantesLexema.PUBLIC)&&
 				tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA)||
 				tokenActual.getLexema().equals(ConstantesLexema.PRIVATE)&&
@@ -161,13 +164,13 @@ public class AnalizadorSintactico {
 		}else {
 			//manejo de error
 		}
-		if (tokenActual.getLexema().equals(ConstantesTipos.PARENTESISAPERTURA)) {
+		if (tokenActual.getTipo().equals(ConstantesTipos.PARENTESISAPERTURA)) {
 			parentesisApertura=tokenActual;
 			darSiguienteToken();
 		}
 		ArrayList<Parametro> listaParametros=esListaParametros();
 
-		if (tokenActual.getLexema().equals(ConstantesTipos.PARENTESISCIERRE)) {
+		if (tokenActual.getTipo().equals(ConstantesTipos.PARENTESISCIERRE)) {
 			parentesisCierre=tokenActual;
 			darSiguienteToken();
 		}else {
@@ -211,7 +214,7 @@ public class AnalizadorSintactico {
 		}else{
 			return null;
 		}
-		if (tokenActual.getLexema().equals(ConstantesTipos.IDENTIFICADOR)) {
+		if (tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADOR)) {
 			identificador=tokenActual;
 			darSiguienteToken();
 			return new Parametro(tipo, identificador);
@@ -233,7 +236,57 @@ public class AnalizadorSintactico {
 	}
 	public SentenciaSi esSentenciaSi() {
 		
-		return null;
+		
+		if (tokenActual.getLexema().equals(ConstantesLexema.IF)&&
+				tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA)) {
+			darSiguienteToken();
+		}else {
+			return null;
+		} if (tokenActual.getTipo().equals(ConstantesTipos.PARENTESISAPERTURA)) {
+			darSiguienteToken();
+		}else {
+			return null;
+		}
+		ArrayList<ExpresionRelacional> expresionesRelacionales= esListaExpresionesRelacionales(); 
+		if (expresionesRelacionales!=null) {
+			darSiguienteToken();
+		}else {
+			return null;
+		}
+		if (tokenActual.getTipo().equals(ConstantesTipos.PARENTESISCIERRE)) {
+			darSiguienteToken();
+		}else {
+			//manejo de error
+		}
+		if (tokenActual.getTipo().equals(ConstantesTipos.LLAVEAPERTURA)) {
+			darSiguienteToken();
+		}else {
+			//manejo deerror
+		}
+
+		CuerpoSi cuerpoSi=esCuerpoSi();
+		
+		if (tokenActual.getTipo().equals(ConstantesTipos.LLAVECIERRE)) {
+			darSiguienteToken();
+			return new SentenciaSi(expresionesRelacionales, cuerpoSi);
+		}
+		else {
+			//manejo de error
+			return null;
+		}
+
+		
+	}
+	public ArrayList<ExpresionRelacional> esListaExpresionesRelacionales(){
+
+		ArrayList<ExpresionRelacional> expresionesRelacionales = new ArrayList<ExpresionRelacional>();
+		ExpresionRelacional expresionRelacional = esExpresionRelacional();
+		while(expresionRelacional!=null)
+		{
+			expresionesRelacionales.add(expresionRelacional);
+			expresionRelacional = esExpresionRelacional();
+		}
+		return expresionesRelacionales;
 	}
 	public CuerpoSi esCuerpoSi() {
 		// TODO Auto-generated method stub
@@ -246,7 +299,16 @@ public class AnalizadorSintactico {
 	}
 
 	public Expresion esExpresion() {
-		// TODO Auto-generated method stub
+		
+
+		if (tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADOR)||
+				tokenActual.getTipo().equals(ConstantesTipos.ENTERO)) {
+			
+			darSiguienteToken();	
+		}else {
+			return null;
+		}
+		
 		return null;
 	}
 
