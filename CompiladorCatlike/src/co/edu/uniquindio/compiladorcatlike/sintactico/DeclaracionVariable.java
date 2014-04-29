@@ -59,7 +59,7 @@ public class DeclaracionVariable implements ISintactica {
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
 		DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Declaracion de Variable");
-		if (modificadorAcceso.getLexema()==null) {
+		if (modificadorAcceso==null) {
 			raiz.add(new DefaultMutableTreeNode("Modificador de Acceso: default"));
 		}else {
 			raiz.add(new DefaultMutableTreeNode("Modificador de Acceso:"+modificadorAcceso.getLexema()));

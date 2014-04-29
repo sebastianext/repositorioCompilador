@@ -19,10 +19,31 @@ package co.edu.uniquindio.compiladorcatlike.sintactico;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import co.edu.uniquindio.compiladorcatlike.lexico.TokenCatlike;
+
 /**
  * Clase que representa un return.
  */
 public class Return implements ISintactica {
+
+	private TokenCatlike token;
+	
+	
+	
+	
+	
+	/**
+	 * Metodo Costructor que inicializa las variables
+	 * @param token
+	 */
+	public Return(TokenCatlike token) {
+		super();
+		this.token = token;
+	}
+
+
+
+
 
 	/* (non-Javadoc)
 	 * @see co.edu.uniquindio.sintactico.catlike.ISintactica#getArbolVisual()
@@ -30,7 +51,7 @@ public class Return implements ISintactica {
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
 		// TODO Auto-generated method stub
-		f
+		
 		return null;
 		
 	}

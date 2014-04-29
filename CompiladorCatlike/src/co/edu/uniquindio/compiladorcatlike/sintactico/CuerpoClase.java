@@ -31,17 +31,6 @@ public class CuerpoClase implements ISintactica {
 	// -----------------------------------------------------------------
 	// Atributos
 	// -----------------------------------------------------------------
-
-	/**
-	 *  token llave de pertura
-	 */
-	private TokenCatlike llaveApertura;
-
-	/**
-	 *  token llave de cierre
-	 */
-	private TokenCatlike llaveCierre;
-
 	/**
 	 *  lista de declaracion de variables
 	 */
@@ -67,12 +56,9 @@ public class CuerpoClase implements ISintactica {
 	 * @param bloqueVariables
 	 * @param bloqueMetodos
 	 */
-	public CuerpoClase(TokenCatlike llaveApertura, TokenCatlike llaveCierre,
-			ArrayList<DeclaracionVariable> bloqueVariables,
+	public CuerpoClase(ArrayList<DeclaracionVariable> bloqueVariables,
 			ArrayList<DeclaracionMetodo> bloqueMetodos) {
-		super();
-		this.llaveApertura = llaveApertura;
-		this.llaveCierre = llaveCierre;
+		
 		this.bloqueVariables = bloqueVariables;
 		this.bloqueMetodos = bloqueMetodos;
 	}
@@ -92,4 +78,41 @@ public class CuerpoClase implements ISintactica {
 		}
 		return raiz;	
 	}
+
+
+	/**
+	 * Metodo que permite obtener bloqueVariables
+	 * @return el bloqueVariables
+	 */
+	public ArrayList<DeclaracionVariable> getBloqueVariables() {
+		return bloqueVariables;
+	}
+
+
+	/**
+	 * Metodo que permite asignar bloqueVariables.
+	 * @param bloqueVariables: el bloqueVariables a asignar.
+	 */
+	public void setBloqueVariables(ArrayList<DeclaracionVariable> bloqueVariables) {
+		this.bloqueVariables = bloqueVariables;
+	}
+
+
+	/**
+	 * Metodo que permite obtener bloqueMetodos
+	 * @return el bloqueMetodos
+	 */
+	public ArrayList<DeclaracionMetodo> getBloqueMetodos() {
+		return bloqueMetodos;
+	}
+
+
+	/**
+	 * Metodo que permite asignar bloqueMetodos.
+	 * @param bloqueMetodos: el bloqueMetodos a asignar.
+	 */
+	public void setBloqueMetodos(ArrayList<DeclaracionMetodo> bloqueMetodos) {
+		this.bloqueMetodos = bloqueMetodos;
+	}
+	
 }

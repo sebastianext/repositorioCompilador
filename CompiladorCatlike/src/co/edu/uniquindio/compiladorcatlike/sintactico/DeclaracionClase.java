@@ -112,8 +112,8 @@ public class DeclaracionClase implements ISintactica {
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
 		DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Declaracion Clase");
-		raiz.add(new DefaultMutableTreeNode("Modificador Acceso:"+modificadorAcceso.getLexema()));
-		raiz.add(new DefaultMutableTreeNode("Nombre:"+identificador.getLexema()));
+		raiz.add(new DefaultMutableTreeNode("Modificador Acceso: "+modificadorAcceso.getLexema()));
+		raiz.add(new DefaultMutableTreeNode("Nombre: "+identificador.getLexema()));
 		raiz.add(cuerpoClase.getArbolVisual());
 		return raiz;	
 	}

@@ -31,8 +31,6 @@ public class DeclaracionMetodo implements ISintactica {
 	private TokenCatlike modificadorAcceso;
 	private TokenCatlike tipo;
 	private TokenCatlike identificador;
-	private TokenCatlike parentesisApertura;
-	private TokenCatlike parentesisCierre;
 	private CuerpoMetodo cuerpoMetodo;
 	private ArrayList<Parametro> listaParametros;
 
@@ -52,15 +50,14 @@ public class DeclaracionMetodo implements ISintactica {
 	 * @param cuerpoMetodo
 	 */
 	public DeclaracionMetodo(TokenCatlike modificadorAcceso, TokenCatlike tipo,
-			TokenCatlike identificador, TokenCatlike parentesisApertura,ArrayList<Parametro> listaParametros,
-			TokenCatlike parentesisCierre, CuerpoMetodo cuerpoMetodo) {
+			TokenCatlike identificador, ArrayList<Parametro> listaParametros, CuerpoMetodo cuerpoMetodo) {
 		super();
 		this.modificadorAcceso = modificadorAcceso;
 		this.tipo = tipo;
 		this.identificador = identificador;
-		this.parentesisApertura = parentesisApertura;
+		
 		this.listaParametros=listaParametros;
-		this.parentesisCierre = parentesisCierre;
+		
 		this.cuerpoMetodo = cuerpoMetodo;
 	}
 
@@ -83,9 +80,12 @@ public class DeclaracionMetodo implements ISintactica {
 		}
 		raiz.add(new DefaultMutableTreeNode("Tipo: "+tipo.getLexema()));
 		raiz.add(new DefaultMutableTreeNode("Nombre: "+identificador.getLexema()));
-		for (Parametro parametro : listaParametros) {
-			raiz.add(parametro.getArbolVisual());
+		if (listaParametros!=null) {
+			for (Parametro parametro : listaParametros) {
+				raiz.add(parametro.getArbolVisual());
+			}
 		}
+		
 		raiz.add(cuerpoMetodo.getArbolVisual());
 	
 		return raiz;

@@ -26,16 +26,27 @@ import javax.swing.tree.DefaultMutableTreeNode;
  */
 public class SentenciaSi implements ISintactica {
 
-	private ArrayList<ExpresionRelacional> expresionesRelacionales;
+	//	private ArrayList<ExpresionRelacional> expresionesRelacionales;
+	private ExpresionLogica expresionLogica;
+	private ExpresionRelacional expresionRelacional;
 	private CuerpoSi cuerpoSi;
 	
-	
-	public SentenciaSi(ArrayList<ExpresionRelacional> expresionesRelacionales,
+
+
+	public SentenciaSi(ExpresionLogica expresionLogica,
 			CuerpoSi cuerpoSi) {
 		super();
-		this.expresionesRelacionales = expresionesRelacionales;
+		this.expresionLogica = expresionLogica;
 		this.cuerpoSi = cuerpoSi;
 	}
+	
+	public SentenciaSi(ExpresionRelacional expresionRelacional,
+			CuerpoSi cuerpoSi) {
+		super();
+		this.expresionRelacional = expresionRelacional;
+		this.cuerpoSi = cuerpoSi;
+	}
+
 
 
 	/* (non-Javadoc)
@@ -44,11 +55,14 @@ public class SentenciaSi implements ISintactica {
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
 		DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Sentencia Si");
-		
-		for (ExpresionRelacional expresionRelacional: expresionesRelacionales) {
+		if (expresionLogica!=null) {
+			raiz.add(expresionLogica.getArbolVisual());
+		}if (expresionRelacional!=null) {
 			raiz.add(expresionRelacional.getArbolVisual());
 		}
-		raiz.add(cuerpoSi.getArbolVisual());
+		if (cuerpoSi!=null) {
+			raiz.add(cuerpoSi.getArbolVisual());
+		}
 		return raiz;	
 	}
 

@@ -19,6 +19,8 @@ package co.edu.uniquindio.compiladorcatlike.sintactico;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import com.sun.org.apache.xpath.internal.axes.OneStepIterator;
+
 import co.edu.uniquindio.compiladorcatlike.lexico.TokenCatlike;
 
 /**
@@ -26,9 +28,9 @@ import co.edu.uniquindio.compiladorcatlike.lexico.TokenCatlike;
  */
 public class ExpresionRelacional implements ISintactica {
 	
-	private Expresion expresionIz;
+	private Object expresionIz;
 	private TokenCatlike operadorRelacional;
-	private Expresion expresionDer;
+	private Object expresionDer;
 
 	
 	
@@ -38,8 +40,8 @@ public class ExpresionRelacional implements ISintactica {
 	 * @param operadorRelacional
 	 * @param expresionDer
 	 */
-	public ExpresionRelacional(Expresion expresionIz,
-			TokenCatlike operadorRelacional, Expresion expresionDer) {
+	public ExpresionRelacional(Object expresionIz,
+			TokenCatlike operadorRelacional, Object expresionDer) {
 		super();
 		this.expresionIz = expresionIz;
 		this.operadorRelacional = operadorRelacional;
@@ -54,9 +56,25 @@ public class ExpresionRelacional implements ISintactica {
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
 		DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Expresion Relacional");
-		raiz.add(expresionIz.getArbolVisual());
+		
+		if (expresionIz instanceof ExpresionAritmetica) {
+			raiz.add(((ExpresionAritmetica)expresionIz).getArbolVisual());
+		}else {
+			if (expresionIz!=null) {
+				raiz.add(new DefaultMutableTreeNode("Factor: "+((TokenCatlike) expresionIz).getLexema()));
+			}
+		}
+		
 		raiz.add(new DefaultMutableTreeNode("Operador Relacional: "+operadorRelacional.getLexema()));
-		raiz.add(expresionDer.getArbolVisual());
+		if (expresionDer instanceof ExpresionAritmetica) {
+			raiz.add(((ExpresionAritmetica) expresionDer).getArbolVisual());
+		}else {
+			if (expresionDer!=null) {
+				raiz.add(new DefaultMutableTreeNode("Factor: "+((TokenCatlike) expresionDer).getLexema()));
+			}
+			
+		}
+		
 		return raiz;
 	}
 

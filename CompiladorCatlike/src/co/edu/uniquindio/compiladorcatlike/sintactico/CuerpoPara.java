@@ -79,8 +79,14 @@ public class CuerpoPara implements ISintactica {
 		for (int i = 0; i < listaSentencias.size(); i++) {
 			raiz.add(((CuerpoMetodo) listaSentencias.get(i)).getArbolVisual());
 		}
-		raiz.add(breaK.getArbolVisual());
-		raiz.add(returN.getArbolVisual());
+		if (breaK!=null) {
+			raiz.add(breaK.getArbolVisual());
+		}
+		if (returN!=null) {
+			raiz.add(returN.getArbolVisual());
+		}
+		
+		
 		return raiz;	
 	}
 

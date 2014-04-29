@@ -26,9 +26,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
  */
 public class CuerpoSi implements ISintactica {
 	// -----------------------------------------------------------------
-		// Atributos
-		// -----------------------------------------------------------------
-	
+	// Atributos
+	// -----------------------------------------------------------------
+
 	/**
 	 *  lista de declaraciones de subvariables , declaraciones de variable de metodos
 	 */
@@ -45,9 +45,9 @@ public class CuerpoSi implements ISintactica {
 	 *  Objeto return 
 	 */
 	private Return returN;
-	
-	
-	
+
+
+
 	/**
 	 * Metodo Costructor que inicializa las variables
 	 * @param bloqueSubvariable
@@ -68,7 +68,7 @@ public class CuerpoSi implements ISintactica {
 	 */
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
-		DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Cuerpo Metodo ");
+		DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Cuerpo Si");
 
 		for (DeclaracionVariable declaracionVariable : bloqueSubvariable) {
 			raiz.add(declaracionVariable.getArbolVisual());
@@ -76,8 +76,14 @@ public class CuerpoSi implements ISintactica {
 		for (int i = 0; i < listaSentencias.size(); i++) {
 			raiz.add(((CuerpoMetodo) listaSentencias.get(i)).getArbolVisual());
 		}
-		raiz.add(breaK.getArbolVisual());
-		raiz.add(returN.getArbolVisual());
+		if (breaK!=null) {
+			raiz.add(breaK.getArbolVisual());
+		}
+		
+		if (returN!=null) {
+			raiz.add(returN.getArbolVisual());
+		}
+		
 		return raiz;	
 	}
 

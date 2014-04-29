@@ -44,6 +44,7 @@ import co.edu.uniquindio.compiladorcatlike.lexico.AnalizadorLexicoCatlike;
 import co.edu.uniquindio.compiladorcatlike.lexico.ArchivoPrueba;
 import co.edu.uniquindio.compiladorcatlike.lexico.ConstantesTipos;
 import co.edu.uniquindio.compiladorcatlike.lexico.TokenCatlike;
+import co.edu.uniquindio.compiladorcatlike.sintactico.AnalizadorSintactico;
 
 /**
  * This code was edited or generated using CloudGarden's Jigloo
@@ -67,12 +68,11 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel jPanelTextEditor;
 	private JScrollPane jScrollPaneTabla;
-	private JMenu jMenuAutomata;
+	
 	private JTable jTableNoReconocidos;
 	private JScrollPane jScrollPaneNoReconocidos;
 	private JPanel jPanelNoReconocidos;
-	private JMenuItem jMenuItemImportarPalabras;
-	private JMenuItem jMenuItemDiferencias;
+	
 	private JButton jButtonLimpiar;
 	private JButton jButtonArchivoPrueba;
 	private JEditorPane jEditorPaneCompilador;
@@ -81,16 +81,21 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 	private JMenuItem jMenuItemSalir;
 	private JMenu menu;
 	private JMenuBar jMenuBar;
+	private JMenu jMenuAutomata;
+	private JMenuItem jMenuItemVerAutomatas;
+	private JSeparator jSeparatorSubMenu;
+	private JMenuItem jMenuItemImportarPalabras;
+	private JMenuItem jMenuItemDiferencias;
 	private JEditorPane jEditorPaneCodigo;
 	private JScrollPane jScrollPaneCodigo;
 	private JButton jButtonVerTokens;
-	private JMenuItem jMenuItemVerAutomatas;
-	private JSeparator jSeparatorSubMenu;
+	
 	private JTable jTableResultados;
 	private JPanel jPanelResultados;
 	DefaultTableModel modeloTokens;
 	DefaultTableModel modeloTokensNoReconocidos;
 	private AnalizadorLexicoCatlike analizadorLexicoCatlike;
+	private AnalizadorSintactico analizadorSintactico;
 
 	/**
 	 * Auto-generated main method to display this JFrame
@@ -117,7 +122,7 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 		try {
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			getContentPane().setLayout(null);
-			this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("img/catlike.png")).getImage());
+			this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("co/edu/uniquindio/compiladorcatlike/img/catlike.png")).getImage());
 			{
 				jMenuBar = new JMenuBar();
 				setJMenuBar(jMenuBar);
@@ -190,12 +195,12 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 				{
 					jScrollPaneCodigo = new JScrollPane();
 					jPanelTextEditor.add(jScrollPaneCodigo);
-					jScrollPaneCodigo.setBounds(13, 19, 422, 221);
+					jScrollPaneCodigo.setBounds(13, 19, 423, 223);
 
 					{
 						jEditorPaneCodigo = new JEditorPane();
 						jScrollPaneCodigo.setViewportView(jEditorPaneCodigo);
-						jEditorPaneCodigo.setPreferredSize(new java.awt.Dimension(419, 218));
+//						jEditorPaneCodigo.setPreferredSize(new java.awt.Dimension(434, 232));
 					}
 				}
 			}
@@ -210,7 +215,7 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 					jPanelResultados.add(jScrollPaneTabla);
 					jScrollPaneTabla.setBounds(13, 22, 611, 176);
 					{
-						String[]  cabecera={ "Token", "Tipo"};
+						String[]  cabecera={ "Token", "Tipo","Fila","Columna"};
 						String[][] datos={ };
 						modeloTokens=new DefaultTableModel(datos,cabecera);
 						jTableResultados = new JTable();
@@ -227,7 +232,7 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 				jButtonVerTokens.setBounds(472, 42, 180, 55);
 				jButtonVerTokens.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
 				jButtonVerTokens.setToolTipText("Analiza el codigo escrito para poder asi obtener los tokens");
-				jButtonVerTokens.setIcon(new ImageIcon(getClass().getClassLoader().getResource("img/ver.png")));
+				jButtonVerTokens.setIcon(new ImageIcon(getClass().getClassLoader().getResource("co/edu/uniquindio/compiladorcatlike/img/ver.png")));
 				jButtonVerTokens.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent evt) {
 						jButtonVerTokensActionPerformed(evt);
@@ -259,7 +264,7 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 				jButtonArchivoPrueba.setBounds(472, 190, 180, 45);
 				jButtonArchivoPrueba.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
 				jButtonArchivoPrueba.setToolTipText("Importa un archivo de prueba donde esta definido la estructura del lenguaje");
-				jButtonArchivoPrueba.setIcon(new ImageIcon(getClass().getClassLoader().getResource("img/txt.png")));
+				jButtonArchivoPrueba.setIcon(new ImageIcon(getClass().getClassLoader().getResource("co/edu/uniquindio/compiladorcatlike/img/txt.png")));
 				jButtonArchivoPrueba.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent evt) {
 						jButtonArchivoPruebaActionPerformed(evt);
@@ -273,7 +278,7 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 				jButtonLimpiar.setBounds(472, 246, 180, 41);
 				jButtonLimpiar.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
 				jButtonLimpiar.setToolTipText("Limpia en totalidad la ventana (Campo del codigo y tablas)");
-				jButtonLimpiar.setIcon(new ImageIcon(getClass().getClassLoader().getResource("img/limpiar.png")));
+				jButtonLimpiar.setIcon(new ImageIcon(getClass().getClassLoader().getResource("co/edu/uniquindio/compiladorcatlike/img/limpiar.png")));
 				jButtonLimpiar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent evt) {
 						jButtonLimpiarActionPerformed(evt);
@@ -325,6 +330,7 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 					if (resultado==JFileChooser.APPROVE_OPTION) {
 						String rutaArchivo= fc.getSelectedFile().getAbsolutePath();
 						analizadorLexicoCatlike.setRuta(rutaArchivo);
+						
 
 					}
 				}
@@ -343,11 +349,13 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 							Object datos[]={token.getLexema()};
 							modeloTokensNoReconocidos.addRow(datos);
 						}else{
-							Object datos[]={token.getLexema(),token.getTipo()};
+							Object datos[]={token.getLexema(),token.getTipo(),token.getFila(),token.getColumna()};
 							modeloTokens.addRow(datos);
 						}
 					}
 				}
+//				ArrayList<TokenCatlike> listaTokensFiltrados=analizadorLexicoCatlike.filtrarTokens();
+//				analizadorSintactico= new AnalizadorSintactico(listaTokensFiltrados);
 				organizarCodigo(tokensObtenidos);
 			}
 			else{
@@ -447,9 +455,7 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 		jEditorPaneCompilador.setText(codigoCompilado);
 	}
 
-	private void jMenuItemSalirActionPerformed(ActionEvent evt) {
-		System.exit(0);
-	}
+	
 
 	//BOTON LIMPIAR 
 	private void jButtonLimpiarActionPerformed(ActionEvent evt) {
@@ -504,6 +510,9 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 
 		automatas.setVisible(true);
 		automatas.setLocationRelativeTo(null);
+	}
+	private void jMenuItemSalirActionPerformed(ActionEvent evt) {
+		System.exit(0);
 	}
 
 }

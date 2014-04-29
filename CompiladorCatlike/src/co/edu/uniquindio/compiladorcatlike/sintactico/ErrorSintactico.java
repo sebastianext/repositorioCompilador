@@ -33,5 +33,55 @@ public class ErrorSintactico {
 		this.indice = indice;
 		this.token = token;
 	}
+
+	/**
+	 * Metodo que permite obtener mensaje
+	 * @return el mensaje
+	 */
+	public String getMensaje() {
+		return mensaje;
+	}
+
+	/**
+	 * Metodo que permite asignar mensaje.
+	 * @param mensaje: el mensaje a asignar.
+	 */
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
+	}
+
+	/**
+	 * Metodo que permite obtener indice
+	 * @return el indice
+	 */
+	public int getIndice() {
+		return indice;
+	}
+
+	/**
+	 * Metodo que permite asignar indice.
+	 * @param indice: el indice a asignar.
+	 */
+	public void setIndice(int indice) {
+		this.indice = indice;
+	}
+
+	/**
+	 * Metodo que permite obtener token
+	 * @return el token
+	 */
+	public TokenCatlike getToken() {
+		return token;
+	}
+
+	/**
+	 * Metodo que permite asignar token.
+	 * @param token: el token a asignar.
+	 */
+	public void setToken(TokenCatlike token) {
+		this.token = token;
+	}
+	
+	
 	
 }

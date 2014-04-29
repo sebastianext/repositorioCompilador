@@ -24,7 +24,7 @@ import co.edu.uniquindio.compiladorcatlike.lexico.TokenCatlike;
 /**
  * Clase que representa una expresion.
  */
-public class Expresion implements ISintactica {
+public class ExpresionAritmetica implements ISintactica {
 	
 	private TokenCatlike expresionIz=null;
 	private TokenCatlike operadorAritmetico=null;
@@ -38,7 +38,7 @@ public class Expresion implements ISintactica {
 	 * @param operadorAritmetico
 	 * @param expresionDer
 	 */
-	public Expresion(TokenCatlike expresionIz, TokenCatlike operadorAritmetico,
+	public ExpresionAritmetica(TokenCatlike expresionIz, TokenCatlike operadorAritmetico,
 			TokenCatlike expresionDer) {
 		super();
 		this.expresionIz = expresionIz;
@@ -53,7 +53,7 @@ public class Expresion implements ISintactica {
 	 */
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
-		DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Expresion");
+		DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Expresion Aritmetica");
 		raiz.add(new DefaultMutableTreeNode(expresionIz.getLexema()));
 		raiz.add(new DefaultMutableTreeNode(operadorAritmetico.getLexema()));
 		raiz.add(new DefaultMutableTreeNode(expresionDer.getLexema()));

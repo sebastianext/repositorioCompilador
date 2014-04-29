@@ -27,7 +27,8 @@ import co.edu.uniquindio.compiladorcatlike.lexico.TokenCatlike;
 public class SentenciaAsignacion implements ISintactica {
 
 	private TokenCatlike identificador;
-	private Expresion expresion;
+	private ExpresionAritmetica expresion;
+	private TokenCatlike factor;
 	
 	
 	
@@ -36,10 +37,15 @@ public class SentenciaAsignacion implements ISintactica {
 	 * @param identificador
 	 * @param expresion
 	 */
-	public SentenciaAsignacion(TokenCatlike identificador, Expresion expresion) {
+	public SentenciaAsignacion(TokenCatlike identificador, ExpresionAritmetica expresion) {
 		super();
 		this.identificador = identificador;
 		this.expresion = expresion;
+	}
+	public SentenciaAsignacion(TokenCatlike identificador, TokenCatlike factor) {
+		super();
+		this.identificador = identificador;
+		this.factor = factor;
 	}
 
 
@@ -50,8 +56,14 @@ public class SentenciaAsignacion implements ISintactica {
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
 		DefaultMutableTreeNode raiz= new DefaultMutableTreeNode("Sentencia Asignacion");
-		raiz.add(new DefaultMutableTreeNode("Nombre:"+identificador.getLexema()));
-		raiz.add(expresion.getArbolVisual());
+		raiz.add(new DefaultMutableTreeNode("Nombre: "+identificador.getLexema()));
+		if (expresion!=null) {
+			raiz.add(expresion.getArbolVisual());
+		}
+		else {
+			raiz.add(new DefaultMutableTreeNode("Factor:"+factor.getLexema()));
+		}
+		
 		return raiz;
 	}
 

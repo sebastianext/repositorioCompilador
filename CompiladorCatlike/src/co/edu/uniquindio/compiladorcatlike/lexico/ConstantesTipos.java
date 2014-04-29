@@ -50,6 +50,9 @@ public class ConstantesTipos {
 	final public static String COMENTARIOS= "Comentarios";
 	final public static String COMENTARIOSSINCERRAR = "Comentarios sin cerrar";
 	final public static String SEPARADORSENTENCIA = "Separador de sentencia";
+	final public static String SALTOLINEA = "Salto de linea";
+	final public static String COMA = "Coma";
+	final public static String TABULADOR = "Tabulador";
 	final public static String NORECONOCIDO = "No reconocido";
 
 }

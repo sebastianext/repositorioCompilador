@@ -29,8 +29,9 @@ import co.edu.uniquindio.compiladorcatlike.lexico.TokenCatlike;
 public class SenteciaPara implements ISintactica {
 
 	private DeclaracionVariable declaracionVariable;
-	private ArrayList listaExpresiones;
-	private Expresion expresion;
+	private ExpresionLogica expresionLogica;
+	private ExpresionRelacional expresionRelacional;
+	private SentenciaAsignacion sentenciaAsignacion;
 	private CuerpoPara cuerpoPara;
 	
 	
@@ -43,12 +44,22 @@ public class SenteciaPara implements ISintactica {
 	 * @param cuerpoPara
 	 */
 	public SenteciaPara(DeclaracionVariable declaracionVariable,
-			ArrayList listaExpresiones, Expresion expresion,
+			ExpresionLogica expresionLogica, SentenciaAsignacion sentenciaAsignacion,
 			CuerpoPara cuerpoPara) {
 		super();
 		this.declaracionVariable = declaracionVariable;
-		this.listaExpresiones = listaExpresiones;
-		this.expresion = expresion;
+		this.expresionLogica = expresionLogica;
+		this.sentenciaAsignacion = sentenciaAsignacion;
+		this.cuerpoPara = cuerpoPara;
+	}
+	
+	public SenteciaPara(DeclaracionVariable declaracionVariable,
+			ExpresionRelacional expresionRelacional, SentenciaAsignacion sentenciaAsignacion,
+			CuerpoPara cuerpoPara) {
+		super();
+		this.declaracionVariable = declaracionVariable;
+		this.expresionRelacional = expresionRelacional;
+		this.sentenciaAsignacion = sentenciaAsignacion;
 		this.cuerpoPara = cuerpoPara;
 	}
 
@@ -60,15 +71,23 @@ public class SenteciaPara implements ISintactica {
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
 		DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Sentencia Para");
+		
 		raiz.add(declaracionVariable.getArbolVisual());
 		
+		if (expresionLogica!=null) {
+			raiz.add(expresionLogica.getArbolVisual());
+		}
+		if (expresionRelacional!=null) {
+			raiz.add(expresionRelacional.getArbolVisual());
+		}
+		if (sentenciaAsignacion!=null) {
+			raiz.add(sentenciaAsignacion.getArbolVisual());
+		}
+		if (cuerpoPara!=null) {
+			raiz.add(cuerpoPara.getArbolVisual());
+		}
 		
-//		for (Object obj : listaExpresiones) {
-//			raiz.add(new DefaultMutableTreeNode("Nombre:"+identificador.getLexema()));
-//		}
 		
-		raiz.add(expresion.getArbolVisual());
-		raiz.add(cuerpoPara.getArbolVisual());
 		return raiz;	
 	}
 

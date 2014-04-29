@@ -34,6 +34,10 @@ public class TokenCatlike {
 	 * tipo del token
 	 */
 	private String tipo;
+	
+	private int fila;
+	
+	private int columna;
 
 	/**
 	 * posición del siguiente lexema
@@ -47,9 +51,11 @@ public class TokenCatlike {
 	/**
 	 *Constructor de TokenCatlike. Metodo que inicializa las variables.
 	 */
-	public TokenCatlike(String lexema, String tipo, int indiceSiguiente) {
+	public TokenCatlike(String lexema, String tipo,int columna,int fila, int indiceSiguiente) {
 		this.lexema = lexema;
 		this.tipo = tipo;
+		this.columna=columna;
+		this.fila=fila;
 		this.indiceSiguiente = indiceSiguiente;
 	}
 
@@ -78,4 +84,21 @@ public class TokenCatlike {
 	public int getIndiceSiguiente() {
 		return indiceSiguiente;
 	}
+
+	/**
+	 * Metodo que permite obtener fila
+	 * @return el fila
+	 */
+	public int getFila() {
+		return fila;
+	}
+
+	/**
+	 * Metodo que permite obtener columna
+	 * @return el columna
+	 */
+	public int getColumna() {
+		return columna;
+	}
+	
 }
