@@ -56,7 +56,7 @@ public class CuerpoMetodo implements ISintactica {
 	 * @param returN
 	 */
 	public CuerpoMetodo(ArrayList<DeclaracionVariable> bloqueSubvariable,
-			ArrayList listaSentencias, Break breaK, Return returN) {
+			ArrayList<Object> listaSentencias, Break breaK, Return returN) {
 		super();
 		this.bloqueSubvariable = bloqueSubvariable;
 		this.listaSentencias = listaSentencias;
@@ -68,7 +68,7 @@ public class CuerpoMetodo implements ISintactica {
 	 */
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
-		DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Cuerpo Metodo ");
+		DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Cuerpo Metodo");
 
 		for (DeclaracionVariable declaracionVariable : bloqueSubvariable) {
 			raiz.add(declaracionVariable.getArbolVisual());

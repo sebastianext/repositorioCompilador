@@ -27,7 +27,7 @@ import co.edu.uniquindio.compiladorcatlike.lexico.TokenCatlike;
  * Clase que representa una declaracion de metodo.
  */
 public class DeclaracionMetodo implements ISintactica {
-	
+
 	private TokenCatlike modificadorAcceso;
 	private TokenCatlike tipo;
 	private TokenCatlike identificador;
@@ -35,7 +35,7 @@ public class DeclaracionMetodo implements ISintactica {
 	private ArrayList<Parametro> listaParametros;
 
 
-	
+
 
 
 
@@ -55,9 +55,9 @@ public class DeclaracionMetodo implements ISintactica {
 		this.modificadorAcceso = modificadorAcceso;
 		this.tipo = tipo;
 		this.identificador = identificador;
-		
+
 		this.listaParametros=listaParametros;
-		
+
 		this.cuerpoMetodo = cuerpoMetodo;
 	}
 
@@ -73,21 +73,27 @@ public class DeclaracionMetodo implements ISintactica {
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
 		DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Declaracion de Metodo");
-		if (modificadorAcceso.getLexema()==null) {
+
+		if (modificadorAcceso==null) {
 			raiz.add(new DefaultMutableTreeNode("Modificador de Acceso: default"));
 		}else {
 			raiz.add(new DefaultMutableTreeNode("Modificador de Acceso:"+modificadorAcceso.getLexema()));
 		}
-		raiz.add(new DefaultMutableTreeNode("Tipo: "+tipo.getLexema()));
+		if (tipo!=null) {
+			raiz.add(new DefaultMutableTreeNode("Tipo: "+tipo.getLexema()));
+		}else {
+			raiz.add(new DefaultMutableTreeNode("Tipo: null"));
+		}
+		
 		raiz.add(new DefaultMutableTreeNode("Nombre: "+identificador.getLexema()));
 		if (listaParametros!=null) {
 			for (Parametro parametro : listaParametros) {
 				raiz.add(parametro.getArbolVisual());
 			}
 		}
-		
+
 		raiz.add(cuerpoMetodo.getArbolVisual());
-	
+
 		return raiz;
 	}
 

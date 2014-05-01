@@ -21,8 +21,6 @@ import java.util.ArrayList;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import co.edu.uniquindio.compiladorcatlike.lexico.TokenCatlike;
-
 /**
  * Clase que representa un cuerpo clase
  */

@@ -67,6 +67,7 @@ public class AnalizadorSintactico {
 				modoPanicoClase();
 			}
 		}
+
 		if (tokenActual.getTipo().equals(ConstantesTipos.LLAVEAPERTURA)) {
 			darSiguienteToken();
 		}
@@ -79,29 +80,28 @@ public class AnalizadorSintactico {
 			}
 		}
 		CuerpoClase cuerpoClase= esCuerpoClase();
-
 		if (tokenActual.getTipo().equals(ConstantesTipos.LLAVECIERRE)) {
-
 			darSiguienteToken();
-			//			return new DeclaracionClase(modificadorAcceso,identificador, cuerpoClase);
+			//		return new DeclaracionClase(modificadorAcceso,identificador, cuerpoClase);
 		}
 		else {
 			String mensaje="Falta la llave de cierre.";
 			listaErroresSintacticos.add(new ErrorSintactico(mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
-
 		}
 		return new DeclaracionClase(modificadorAcceso,identificador, cuerpoClase);
 	}
 
 	private void modoPanicoClaseLLaveApertura() {
-		while(!tokenActual.getLexema().equals(ConstantesLexema.PUBLIC)&&
-				tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA)||
-				tokenActual.getLexema().equals(ConstantesLexema.PRIVATE)&&
-				tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA)||esTipoVariable()||esTipoMetodo()){
+		while(!(tokenActual.getLexema().equals(ConstantesLexema.PUBLIC)&&
+				tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA))&&
+				!(tokenActual.getLexema().equals(ConstantesLexema.PRIVATE)&&
+						tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA))&&
+						!esTipoMetodo()&& indice +1 != listaSimbolosLexicos.size()){
 			darSiguienteToken();
 		}
 
 	}
+
 	private void modoPanicoClase() {
 		while(!tokenActual.getTipo().equals(ConstantesTipos.LLAVEAPERTURA)){
 			darSiguienteToken();
@@ -118,7 +118,8 @@ public class AnalizadorSintactico {
 	public CuerpoClase esCuerpoClase() {
 		ArrayList<DeclaracionVariable> bloqueVariables= new ArrayList<DeclaracionVariable>();
 		ArrayList<DeclaracionMetodo> bloqueMetodos=  new ArrayList<DeclaracionMetodo>();
-		if (!tokenActual.getTipo().equals(ConstantesTipos.LLAVECIERRE)) {
+		if (!tokenActual.getTipo().equals(ConstantesTipos.LLAVECIERRE)&&
+				!tokenActual.getTipo().equals(ConstantesTipos.LLAVEAPERTURA)) {
 			bloqueVariables= esBloqueVariables();
 			bloqueMetodos= esBloqueMetodos();
 		}
@@ -140,10 +141,24 @@ public class AnalizadorSintactico {
 				tipoDato=tokenActual;
 				darSiguienteToken();
 			}else {
-				//			String mensaje="no hay declaracion de tipo.";
-				//			listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
-				//			modoPanicoTipoV();
-				return null;
+				if (modificadorAcceso!=null ||tipoDato!=null) {
+					if (tokenActual.getLexema().equals(ConstantesLexema.VOID)||tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADORMETODO)) {
+						realizarBactracking(indiceAux);
+						return null;
+
+					}else {
+						String mensaje="no hay declaracion de tipo.";
+						listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
+						//						modoPanicoClaseLLaveApertura();
+
+					}
+				}else {
+					String mensaje="No es una decalracion de variable";
+					listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
+					modoPanicoClaseLLaveApertura();
+					return null;
+				}
+
 			}
 			if (tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADOR)) {
 				identificador=tokenActual;
@@ -168,7 +183,8 @@ public class AnalizadorSintactico {
 				//manejo de error;
 				String mensaje = "Falta el separador de sentencia";
 				listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
-				return null;
+				modoPanicoClaseLLaveApertura();
+				return new DeclaracionVariable(modificadorAcceso,tipoDato, identificador);
 			}
 		}
 		else {
@@ -178,48 +194,94 @@ public class AnalizadorSintactico {
 
 
 
-	private void modoPanicoTipoV() {
-		while(!esTipoMetodo()&&!esModificadorAcceso()){
-			darSiguienteToken();
-		}
-
-	}
+//	private void modoPanicoTipoV() {
+//		while(!esTipoMetodo()&&!esModificadorAcceso()){
+//			darSiguienteToken();
+//		}
+//
+//	}
 
 	public DeclaracionVariable esSubDeclaracionVariable() {
 
 		TokenCatlike tipoDato=null;
 		TokenCatlike identificador=null;
 
+		if (!tokenActual.getTipo().equals(ConstantesTipos.LLAVECIERRE)) {
 
-		if(esTipoVariable()) {
-			tipoDato=tokenActual;
-			darSiguienteToken();
-		}else {
-			return null;
-		}
-		if (tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADOR)) {
-			identificador=tokenActual;
-			darSiguienteToken();
-		}
-		else {
-			int indiceAux=indice;
-			darSiguienteToken();
-			if (!tokenActual.getTipo().equals(ConstantesTipos.SEPARADORSENTENCIA)) {
+
+
+			if(esTipoVariable()) {
+				tipoDato=tokenActual;
+				darSiguienteToken();
+			}else {
+				if (!tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADOR)&&!(tokenActual.getLexema().equals(ConstantesLexema.FOR)&&
+						!tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA))&&
+						!(tokenActual.getLexema().equals(ConstantesLexema.IF)&&
+								!tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA))&&
+								!tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADOR)&&
+								!(tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA)&&
+										!tokenActual.getLexema().equals(ConstantesLexema.BREAK))&&
+										!tokenActual.getTipo().equals(ConstantesTipos.LLAVECIERRE) &&
+										indice +1 != listaSimbolosLexicos.size()) {
+
+					String mensaje="No es una declaracion de variable";
+					listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
+					while (!esTipoVariable()&&!(tokenActual.getLexema().equals(ConstantesLexema.FOR)&&
+							!tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA))&&
+							!(tokenActual.getLexema().equals(ConstantesLexema.IF)&&
+									!tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA))&&
+									!tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADOR)&&
+									!(tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA)&&
+											!tokenActual.getLexema().equals(ConstantesLexema.BREAK))&&
+											!tokenActual.getTipo().equals(ConstantesTipos.LLAVECIERRE) &&
+											indice +1 != listaSimbolosLexicos.size()) {
+						darSiguienteToken();
+
+					}
+					
+				}
 				return null;
 			}
-			String mensaje="falta un identificador de variable";
-			listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
-			realizarBactracking(indiceAux);
+			if (tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADOR)) {
+				identificador=tokenActual;
+				darSiguienteToken();
+			}
+			else {
+				//			int indiceAux=indice;
+				//			darSiguienteToken();
+				if (tokenActual.getTipo().equals(ConstantesTipos.SEPARADORSENTENCIA)) {
+					String mensaje="falta un identificador de variable";
+					listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
+					return new DeclaracionVariable(tipoDato, identificador);
+				}
+				else {
+					return null;
+				}
 
-		}
-		if (tokenActual.getTipo().equals(ConstantesTipos.SEPARADORSENTENCIA)) {
-			darSiguienteToken( );
-			return new DeclaracionVariable(tipoDato, identificador);
+			}
+			if (tokenActual.getTipo().equals(ConstantesTipos.SEPARADORSENTENCIA)) {
+				darSiguienteToken( );
+				return new DeclaracionVariable(tipoDato, identificador);
+			}else {
+				//manejo de error;
+				//manejo de error;
+				String mensaje = "Falta el separador de sentencia";
+				listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
+				while (!esTipoVariable()&&!(tokenActual.getLexema().equals(ConstantesLexema.FOR)&&
+						!tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA))&&
+						!(tokenActual.getLexema().equals(ConstantesLexema.IF)&&
+								!tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA))&&
+								!tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADOR)&&
+								!(tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA)&&
+										!tokenActual.getLexema().equals(ConstantesLexema.BREAK))&&
+										!tokenActual.getTipo().equals(ConstantesTipos.LLAVECIERRE) &&
+										indice +1 != listaSimbolosLexicos.size()) {
+					darSiguienteToken();
+
+				}
+				return  new DeclaracionVariable(tipoDato, identificador);
+			}
 		}else {
-			//manejo de error;
-			//manejo de error;
-			String mensaje = "Falta el separador de sentencia";
-			listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
 			return null;
 		}
 	}
@@ -228,14 +290,10 @@ public class AnalizadorSintactico {
 		TokenCatlike modificadorAcceso=null;
 		TokenCatlike tipo=null;
 		TokenCatlike identificador=null;
-		int indiceAux=indice;
-
+		//		int indiceAux=indice;
 		if (!tokenActual.getTipo().equals(ConstantesTipos.LLAVECIERRE)) {
 
-			if (tokenActual.getLexema().equals(ConstantesLexema.PUBLIC)&&
-					tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA)||
-					tokenActual.getLexema().equals(ConstantesLexema.PRIVATE)&&
-					tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA)) {
+			if (esModificadorAcceso()) {
 				modificadorAcceso=tokenActual;
 				darSiguienteToken();
 			}
@@ -243,21 +301,41 @@ public class AnalizadorSintactico {
 				tipo=tokenActual;
 				darSiguienteToken();
 			}else {
-				String mensaje = "Debe ser una declaracion de metodo o de variable.";
-				listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
-				while(!tokenActual.getTipo().equals(ConstantesTipos.LLAVECIERRE)){
-					darSiguienteToken();
+
+				if (modificadorAcceso!=null ||tipo!=null) {
+					if (!tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADORMETODO)) {
+						return null;
+
+					}else {
+						String mensaje="no hay declaracion de tipo.";
+						listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
+					}
+				}else {
+					String mensaje="No es una decalracion de metodo";
+					listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
+					modoPanicoClaseLLaveApertura();
+					return null;
 				}
-				return null;
+				//
+				//
+				//				String mensaje = "Debe ser una declaracion de metodo o de variable.";
+				//				listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
+				//				while(!tokenActual.getTipo().equals(ConstantesTipos.LLAVECIERRE)){
+				//					darSiguienteToken();
+				//				}
+				//				return null;
 			}
 			if (tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADORMETODO)) {
 				identificador=tokenActual;
 				darSiguienteToken();
 			}else {
 				//manejo de error
-				//				if (tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADOR)) {
-				//					j
-				//				}
+				if (tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADOR)) {
+					String mensaje = "Debe ser un identificador de metodo";
+					listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
+					modoPanicoMetodoLLaveApertura();
+					return null;
+				}
 				String mensaje = "Debe ser un identificador de metodo";
 				listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
 				if (!tokenActual.getTipo().equals(ConstantesTipos.PARENTESISAPERTURA)) {
@@ -281,7 +359,7 @@ public class AnalizadorSintactico {
 				darSiguienteToken();
 			}else {
 				//manejo de error
-				String mensaje="falta el parentesisi de apertura";
+				String mensaje="falta el parentesis de cierre";
 				listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
 				modoPanicoMetodoPApertura();
 			}
@@ -292,8 +370,17 @@ public class AnalizadorSintactico {
 				//recupercion de error
 				String mensaje="No es un llave de apertura.";
 				listaErroresSintacticos.add(new ErrorSintactico(mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
-				if(!tokenActual.getTipo().equals(ConstantesTipos.LLAVEAPERTURA)){
-					modoPanicoMetodoLLaveApertura();
+				while (!esTipoVariable()&&!(tokenActual.getLexema().equals(ConstantesLexema.FOR)&&
+						!tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA))&&
+						!(tokenActual.getLexema().equals(ConstantesLexema.IF)&&
+								!tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA))&&
+								!tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADOR)&&
+								!(tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA)&&
+										!tokenActual.getLexema().equals(ConstantesLexema.BREAK))&&
+										!tokenActual.getTipo().equals(ConstantesTipos.LLAVECIERRE) &&
+										indice +1 != listaSimbolosLexicos.size()) {
+					darSiguienteToken();
+
 				}
 			}
 
@@ -325,7 +412,7 @@ public class AnalizadorSintactico {
 	}
 
 	private void modoPanicoMetodoPApertura() {
-		while(!tokenActual.getTipo().equals(ConstantesTipos.LLAVEAPERTURA)||
+		while(!tokenActual.getTipo().equals(ConstantesTipos.LLAVEAPERTURA)&&
 				!tokenActual.getTipo().equals(ConstantesTipos.LLAVECIERRE)){
 			darSiguienteToken();
 		}
@@ -338,13 +425,13 @@ public class AnalizadorSintactico {
 		}
 	}
 
+
 	public CuerpoMetodo esCuerpoMetodo() {
 
 		ArrayList<DeclaracionVariable> bloqueSubvariable=esBloqueSubVariables();
 		ArrayList<Object> listaSentencias= esListaSentencias();
 		Break breaK= esBreak();
 		Return returN=esReturn();
-
 		if (breaK!=null) {
 			darSiguienteToken();
 			return new CuerpoMetodo(bloqueSubvariable, listaSentencias, breaK, returN);
@@ -355,7 +442,7 @@ public class AnalizadorSintactico {
 			darSiguienteToken();
 			return new CuerpoMetodo(bloqueSubvariable, listaSentencias, breaK, returN);
 		}
-		// TODO Falta por hacer la accion cuando no sea cuerpo de clase
+
 	}
 
 	public ArrayList<Parametro> esListaParametros() {
@@ -381,6 +468,7 @@ public class AnalizadorSintactico {
 						String mensaje="falta separador de parametro.";
 						listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
 						moodoPanicoParametro();
+						break;
 					}
 				}
 
@@ -394,7 +482,7 @@ public class AnalizadorSintactico {
 	}
 
 	private void moodoPanicoParametro() {
-		while (!tokenActual.getTipo().equals(ConstantesTipos.PARENTESISCIERRE)||
+		while (!tokenActual.getTipo().equals(ConstantesTipos.PARENTESISCIERRE)&&
 				!tokenActual.getTipo().equals(ConstantesTipos.LLAVEAPERTURA)) {
 			darSiguienteToken();
 
@@ -447,26 +535,21 @@ public class AnalizadorSintactico {
 			darSiguienteToken();
 			return new Parametro(tipo, identificador);
 		}else {
-			int indiceAux=indice;
-			realizarBactracking(indice-1);
-			if (!esTipoMetodo()) {
-				return null;
-			}
-			realizarBactracking(indiceAux);
+
 			String mensaje="falta identificador de varibale";
 			listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
-			modoPanicoParametro();
+			moodoPanicoParametro();
 			return new Parametro(tipo, identificador);
 		}
 	}
-	private void modoPanicoParametro() {
-		while (!tokenActual.getTipo().equals(ConstantesTipos.PARENTESISCIERRE)||
-				!tokenActual.getLexema().equals(ConstantesLexema.COMA)) {
-			darSiguienteToken();
-
-		}
-
-	}
+//	private void modoPanicoParametro() {
+//		while (!tokenActual.getTipo().equals(ConstantesTipos.PARENTESISCIERRE)||
+//				!tokenActual.getLexema().equals(ConstantesLexema.COMA)) {
+//			darSiguienteToken();
+//
+//		}
+//
+//	}
 
 	public Parametro esParametroInvocacion() {
 
@@ -517,7 +600,9 @@ public class AnalizadorSintactico {
 		} if (tokenActual.getTipo().equals(ConstantesTipos.PARENTESISAPERTURA)) {
 			darSiguienteToken();
 		}else {
-			return null;
+			String mensaje="falta parentesis de apertura.";
+			listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
+			
 		}
 		DeclaracionVariable declaracionVariable= esSubDeclaracionVariable();
 		if (declaracionVariable!=null) {
@@ -525,11 +610,11 @@ public class AnalizadorSintactico {
 		}else {
 			return null;
 		}
-//		if (tokenActual.getTipo().equals(ConstantesTipos.SEPARADORSENTENCIA)) {
-//			darSiguienteToken();
-//		}else {
-//			//recuperar error
-//		}
+		//		if (tokenActual.getTipo().equals(ConstantesTipos.SEPARADORSENTENCIA)) {
+		//			darSiguienteToken();
+		//		}else {
+		//			//recuperar error
+		//		}
 		ExpresionLogica expresionLogica = esExpresionLogica();
 		ExpresionRelacional expresionRelacional=null;
 		if (expresionLogica==null) {
@@ -545,7 +630,7 @@ public class AnalizadorSintactico {
 		}
 		SentenciaAsignacion sentenciaAsignacion = esSentenciaAsignacion();
 		if (sentenciaAsignacion!=null) {
-//			darSiguienteToken();
+			//			darSiguienteToken();
 		}else {
 			//recuperar error
 			// TODO
@@ -581,7 +666,7 @@ public class AnalizadorSintactico {
 	public CuerpoPara esCuerpoPara() {
 		if (!tokenActual.getTipo().equals(ConstantesTipos.LLAVECIERRE)) {
 			ArrayList<DeclaracionVariable> bloqueSubvariable=esBloqueSubVariables();
-			ArrayList listaSentencias= esListaSentencias();
+			ArrayList<Object> listaSentencias= esListaSentencias();
 			Break breaK= esBreak();
 			Return returN=esReturn();
 
@@ -611,7 +696,16 @@ public class AnalizadorSintactico {
 		} if (tokenActual.getTipo().equals(ConstantesTipos.PARENTESISAPERTURA)) {
 			darSiguienteToken();
 		}else {
-			return null;
+			String mensaje="falta parentesis de apertura.";
+			listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
+			
+			while(!tokenActual.getTipo().equals(ConstantesTipos.ENTERO)&&
+					!tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADOR)&&
+					!tokenActual.getTipo().equals(ConstantesTipos.REAL)&&
+					!tokenActual.getTipo().equals(ConstantesTipos.LLAVECIERRE) &&
+					indice +1 != listaSimbolosLexicos.size()){
+				darSiguienteToken();
+			}
 		}
 		ExpresionLogica expresionLogica= esExpresionLogica(); 
 		ExpresionRelacional expresionRelacional=null;
@@ -625,13 +719,32 @@ public class AnalizadorSintactico {
 			darSiguienteToken();
 		}else {
 			//manejo de error
-			// TODO
+			String mensaje="falta parentesis de cierre.";
+			listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
+			while(!tokenActual.getTipo().equals(ConstantesTipos.LLAVEAPERTURA)&&
+					!tokenActual.getTipo().equals(ConstantesTipos.LLAVECIERRE) &&
+					indice +1 != listaSimbolosLexicos.size()){
+				darSiguienteToken();
+			}
 		}
 		if (tokenActual.getTipo().equals(ConstantesTipos.LLAVEAPERTURA)) {
 			darSiguienteToken();
 		}else {
 			//manejo deerror
-			// TODO
+			String mensaje="falta llave de apertura.";
+			listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
+			while (!esTipoVariable()&&!(tokenActual.getLexema().equals(ConstantesLexema.FOR)&&
+					!tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA))&&
+					!(tokenActual.getLexema().equals(ConstantesLexema.IF)&&
+							!tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA))&&
+							!tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADOR)&&
+							!(tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA)&&
+									!tokenActual.getLexema().equals(ConstantesLexema.BREAK))&&
+									!tokenActual.getTipo().equals(ConstantesTipos.LLAVECIERRE) &&
+									indice +1 != listaSimbolosLexicos.size()) {
+				darSiguienteToken();
+
+			}
 		}
 
 		CuerpoSi cuerpoSi=esCuerpoSi();
@@ -691,7 +804,7 @@ public class AnalizadorSintactico {
 				darSiguienteToken();
 				return new CuerpoSi(bloqueSubvariable, listaSentencias, breaK, returN);
 			}else {
-				darSiguienteToken();
+				//				darSiguienteToken();
 				return new CuerpoSi(bloqueSubvariable, listaSentencias, breaK, returN);
 			}
 		}
@@ -713,6 +826,22 @@ public class AnalizadorSintactico {
 		}
 		if (tokenActual.getTipo().equals(ConstantesTipos.OPERADORASIGNACION)) {
 			darSiguienteToken();
+		}else {
+			String mensaje="No es una sentencia de asignacion";
+			listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
+			while (!esTipoVariable()&&!(tokenActual.getLexema().equals(ConstantesLexema.FOR)&&
+					!tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA))&&
+					!(tokenActual.getLexema().equals(ConstantesLexema.IF)&&
+							!tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA))&&
+							!tokenActual.getTipo().equals(ConstantesTipos.IDENTIFICADOR)&&
+							!(tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA)&&
+									!tokenActual.getLexema().equals(ConstantesLexema.BREAK))&&
+									!tokenActual.getTipo().equals(ConstantesTipos.LLAVECIERRE) &&
+									indice +1 != listaSimbolosLexicos.size()) {
+				darSiguienteToken();
+
+			}
+			return null;
 		}
 		ExpresionAritmetica expresionAritmetica= esExpresionAritmetica();
 		if (expresionAritmetica==null) {
@@ -726,6 +855,9 @@ public class AnalizadorSintactico {
 		}
 		if (tokenActual.getTipo().equals(ConstantesTipos.SEPARADORSENTENCIA)) {
 			darSiguienteToken();
+			if (expresionAritmetica==null) {
+				return new SentenciaAsignacion(identificador, factor);
+			}
 			return new SentenciaAsignacion(identificador, expresionAritmetica);
 		}else {
 			if (tokenActual.getTipo().equals(ConstantesTipos.PARENTESISCIERRE)) {
@@ -877,21 +1009,21 @@ public class AnalizadorSintactico {
 	}
 
 	public Break esBreak() {
-		TokenCatlike breaK=null;
+		//		TokenCatlike breaK=null;
 		if (tokenActual.getLexema().equals(ConstantesLexema.BREAK)&&
 				tokenActual.getTipo().equals(ConstantesTipos.PALABRARESERVADA)) {
-			breaK=tokenActual;
+			//			breaK=tokenActual;
 			darSiguienteToken();
 		}else{
 			return null;
 		}
 		if (tokenActual.getTipo().equals(ConstantesTipos.SEPARADORSENTENCIA)) {
-			return new Break(breaK);
+			return new Break();
 		}else{
 			//manejar error
 			String mensaje="Falta el separador de sentencia";
 			listaErroresSintacticos.add(new ErrorSintactico (mensaje, tokenActual.getIndiceSiguiente(), tokenActual));
-			return new Break(breaK);
+			return new Break();
 		}
 
 	}
@@ -964,10 +1096,18 @@ public class AnalizadorSintactico {
 
 		ArrayList<DeclaracionVariable> bloqueVariables = new ArrayList<DeclaracionVariable>();
 		DeclaracionVariable declaracionVariable = esSubDeclaracionVariable();
+
+
 		while(declaracionVariable!=null)
-		{
+		{	
 			bloqueVariables.add(declaracionVariable);
-			declaracionVariable = esSubDeclaracionVariable();
+			if (!tokenActual.getTipo().equals(ConstantesTipos.LLAVECIERRE)) {
+
+				declaracionVariable = esSubDeclaracionVariable();
+			}
+			else {
+				break;
+			}
 		}
 		return bloqueVariables;
 
@@ -981,7 +1121,6 @@ public class AnalizadorSintactico {
 		{
 			bloqueMetodos.add(declaracionMetodo);
 			declaracionMetodo = esDeclaracionMetodo();
-
 		}
 		return bloqueMetodos;
 

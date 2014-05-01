@@ -19,8 +19,6 @@ package co.edu.uniquindio.compiladorcatlike.sintactico;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import co.edu.uniquindio.compiladorcatlike.lexico.TokenCatlike;
-
 /**
  * Clase que representa un Break.
  */
@@ -33,18 +31,16 @@ public class Break implements ISintactica {
 	/**
 	 *  token break
 	 */
-	private TokenCatlike breaK;
+	//	private TokenCatlike breaK;
 
 	// -----------------------------------------------------------------
 	// Constructor
 	// -----------------------------------------------------------------
-	
+
 	/**
 	 *Constructor de TokenCatlike. Metodo que inicializa las variables.
 	 */
-	public Break(TokenCatlike breaK) {
-
-		this.breaK = breaK;
+	public Break() {
 	}
 	/* (non-Javadoc)
 	 * @see co.edu.uniquindio.sintactico.catlike.ISintactica#getArbolVisual()

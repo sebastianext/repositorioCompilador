@@ -36,7 +36,7 @@ public class CuerpoSi implements ISintactica {
 	/**
 	 *  lista de sentencias
 	 */
-	private ArrayList listaSentencias;
+	private ArrayList<Object> listaSentencias;
 	/**
 	 * Objeto Break
 	 */
@@ -56,7 +56,7 @@ public class CuerpoSi implements ISintactica {
 	 * @param returN
 	 */
 	public CuerpoSi(ArrayList<DeclaracionVariable> bloqueSubvariable,
-			ArrayList listaSentencias, Break breaK, Return returN) {
+			ArrayList<Object> listaSentencias, Break breaK, Return returN) {
 		super();
 		this.bloqueSubvariable = bloqueSubvariable;
 		this.listaSentencias = listaSentencias;
@@ -74,16 +74,23 @@ public class CuerpoSi implements ISintactica {
 			raiz.add(declaracionVariable.getArbolVisual());
 		}
 		for (int i = 0; i < listaSentencias.size(); i++) {
-			raiz.add(((CuerpoMetodo) listaSentencias.get(i)).getArbolVisual());
+			if (listaSentencias.get(i) instanceof SentenciaSi) {
+				raiz.add(((SentenciaSi)listaSentencias.get(i)).getArbolVisual());
+			}
+			if (listaSentencias.get(i) instanceof SenteciaPara) {
+				raiz.add(((SenteciaPara)listaSentencias.get(i)).getArbolVisual());
+			}
+			if (listaSentencias.get(i) instanceof SentenciaAsignacion) {
+				raiz.add(((SentenciaAsignacion)listaSentencias.get(i)).getArbolVisual());
+			}
+
 		}
 		if (breaK!=null) {
 			raiz.add(breaK.getArbolVisual());
 		}
-		
 		if (returN!=null) {
 			raiz.add(returN.getArbolVisual());
 		}
-		
 		return raiz;	
 	}
 

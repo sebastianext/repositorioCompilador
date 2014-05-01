@@ -20,8 +20,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import com.sun.org.apache.bcel.internal.generic.CPInstruction;
-
 /**
  * Clase que respresenta un analizador léxico
  */
@@ -782,7 +780,8 @@ public class AnalizadorLexicoCatlike {
 				vectorTokensNoReconocidos.add(token);
 			}else if(!token.getTipo().equals(ConstantesTipos.ESPACIOS)&&
 					!token.getTipo().equals(ConstantesTipos.SALTOLINEA)&&
-					!token.getTipo().equals(ConstantesTipos.TABULADOR)) {
+					!token.getTipo().equals(ConstantesTipos.TABULADOR)&&
+					!token.getTipo().equals(ConstantesTipos.COMENTARIOS)) {
 				tokensFiltrados.add(token);
 			}
 		}

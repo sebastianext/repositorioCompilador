@@ -65,7 +65,7 @@ public class Automatas extends javax.swing.JDialog {
 		try {
 			{
 				getContentPane().setLayout(null);
-				this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("img/catlike.png")).getImage());
+				this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("co/edu/uniquindio/compiladorcatlike/img/catlike.png")).getImage());
 				{
 					jPanelAutomas = new JPanel();
 					getContentPane().add(jPanelAutomas);
@@ -147,7 +147,7 @@ public class Automatas extends javax.swing.JDialog {
 						{
 							jLabelImg = new JLabel();
 							jPanelImg.add(jLabelImg);
-							jLabelImg.setIcon(new ImageIcon(getClass().getClassLoader().getResource("img/img0.png")));
+							jLabelImg.setIcon(new ImageIcon(getClass().getClassLoader().getResource("co/edu/uniquindio/compiladorcatlike/img/img0.png")));
 						}
 					}
 					{
@@ -170,7 +170,7 @@ public class Automatas extends javax.swing.JDialog {
 		for (int i = 0; i < 13; i++) {
 			
 			if (i==elemento) {
-				jLabelImg.setIcon(new ImageIcon(getClass().getClassLoader().getResource("img/img"+elemento+".png")));
+				jLabelImg.setIcon(new ImageIcon(getClass().getClassLoader().getResource("co/edu/uniquindio/compiladorcatlike/img/img"+elemento+".png")));
 			}
 		}
 	}

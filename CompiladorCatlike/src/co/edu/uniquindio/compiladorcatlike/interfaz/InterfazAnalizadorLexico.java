@@ -44,7 +44,6 @@ import co.edu.uniquindio.compiladorcatlike.lexico.AnalizadorLexicoCatlike;
 import co.edu.uniquindio.compiladorcatlike.lexico.ArchivoPrueba;
 import co.edu.uniquindio.compiladorcatlike.lexico.ConstantesTipos;
 import co.edu.uniquindio.compiladorcatlike.lexico.TokenCatlike;
-import co.edu.uniquindio.compiladorcatlike.sintactico.AnalizadorSintactico;
 
 /**
  * This code was edited or generated using CloudGarden's Jigloo
@@ -95,7 +94,7 @@ public class InterfazAnalizadorLexico extends javax.swing.JFrame {
 	DefaultTableModel modeloTokens;
 	DefaultTableModel modeloTokensNoReconocidos;
 	private AnalizadorLexicoCatlike analizadorLexicoCatlike;
-	private AnalizadorSintactico analizadorSintactico;
+//	private AnalizadorSintactico analizadorSintactico;
 
 	/**
 	 * Auto-generated main method to display this JFrame

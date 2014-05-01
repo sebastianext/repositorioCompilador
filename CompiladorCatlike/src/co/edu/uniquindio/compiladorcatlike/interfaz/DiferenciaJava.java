@@ -50,7 +50,7 @@ public class DiferenciaJava extends javax.swing.JDialog {
 		try {
 			this.setPreferredSize(new java.awt.Dimension(324, 464));
 			this.setLayout(null);
-			this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("img/catlike.png")).getImage());
+			this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("co/edu/uniquindio/compiladorcatlike/img/catlike.png")).getImage());
 			{
 				jPanelImg = new JPanel();
 				getContentPane().add(jPanelImg);
@@ -63,7 +63,7 @@ public class DiferenciaJava extends javax.swing.JDialog {
 					{
 						jLabelImg = new JLabel();
 						jScrollPaneImg.setViewportView(jLabelImg);
-						jLabelImg.setIcon(new ImageIcon(getClass().getClassLoader().getResource("img/diferencia.png")));
+						jLabelImg.setIcon(new ImageIcon(getClass().getClassLoader().getResource("co/edu/uniquindio/compiladorcatlike/img/diferencia.png")));
 						jLabelImg.setPreferredSize(new java.awt.Dimension(273, 621));
 					}
 				}

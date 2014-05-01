@@ -19,8 +19,6 @@ package co.edu.uniquindio.compiladorcatlike.sintactico;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import com.sun.org.apache.xpath.internal.axes.OneStepIterator;
-
 import co.edu.uniquindio.compiladorcatlike.lexico.TokenCatlike;
 
 /**

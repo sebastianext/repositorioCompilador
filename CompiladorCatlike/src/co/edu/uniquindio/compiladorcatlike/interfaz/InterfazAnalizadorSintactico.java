@@ -1,6 +1,5 @@
 package co.edu.uniquindio.compiladorcatlike.interfaz;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
@@ -9,7 +8,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -58,6 +56,10 @@ import co.edu.uniquindio.compiladorcatlike.sintactico.ErrorSintactico;
  */
 public class InterfazAnalizadorSintactico extends javax.swing.JFrame {
 
+	/**
+	 *   fields
+	 */
+	private static final long serialVersionUID = 1L;
 	private JScrollPane jScrollPaneEntradaCodigo;
 	private JButton jButtonGuardar;
 	private JButton jButtonNuevoArchivo;
@@ -119,6 +121,8 @@ public class InterfazAnalizadorSintactico extends javax.swing.JFrame {
 		try {
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			getContentPane().setLayout(null);
+			this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("co/edu/uniquindio/compiladorcatlike/img/catlike.png")).getImage());
+			this.setTitle("Compilador Catlike");
 			{
 				jPanelArbol = new JPanel();
 				getContentPane().add(jPanelArbol);
@@ -381,7 +385,7 @@ public class InterfazAnalizadorSintactico extends javax.swing.JFrame {
 			}
 
 			pack();
-			Dimension dim=super.getToolkit().getScreenSize();
+//			Dimension dim=super.getToolkit().getScreenSize();
 			this.setSize(1261, 769);
 			//			setSize(400, 300);
 		} catch (Exception e) {
@@ -516,6 +520,7 @@ public class InterfazAnalizadorSintactico extends javax.swing.JFrame {
 		jTextAreaEntradaCodigo.setText("");
 		modeloTokens.setRowCount(0);
 		modeloTokensNoReconocidos.setRowCount(0);
+		modeloErroresSintacticos.setRowCount(0);
 	}
 	public void getArbol(DefaultMutableTreeNode d){
 		jTree = new JTree(d);

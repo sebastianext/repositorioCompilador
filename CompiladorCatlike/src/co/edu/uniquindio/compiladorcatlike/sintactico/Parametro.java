@@ -51,8 +51,17 @@ public class Parametro implements ISintactica {
 	public DefaultMutableTreeNode getArbolVisual() {
 		DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Parametro");
 
-		raiz.add(new DefaultMutableTreeNode("Tipo: "+tipo.getLexema()));
-		raiz.add(new DefaultMutableTreeNode("Nombre: "+identificador.getLexema()));
+		if (tipo!=null) {
+			raiz.add(new DefaultMutableTreeNode("Tipo: "+tipo.getLexema()));
+		}else {
+			raiz.add(new DefaultMutableTreeNode("Tipo: null"));
+		}
+			if (identificador!=null) {
+				raiz.add(new DefaultMutableTreeNode("Nombre: "+identificador.getLexema()));
+			}else {
+				raiz.add(new DefaultMutableTreeNode("Nombre: null"));
+			}
+		
 
 		return raiz;
 	}

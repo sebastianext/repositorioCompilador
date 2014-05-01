@@ -17,11 +17,7 @@
  */
 package co.edu.uniquindio.compiladorcatlike.sintactico;
 
-import java.util.ArrayList;
-
 import javax.swing.tree.DefaultMutableTreeNode;
-
-import co.edu.uniquindio.compiladorcatlike.lexico.TokenCatlike;
 
 /**
  * Clase que representa una sentencia para.

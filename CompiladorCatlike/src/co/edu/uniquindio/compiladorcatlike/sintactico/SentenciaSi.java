@@ -17,8 +17,6 @@
  */
 package co.edu.uniquindio.compiladorcatlike.sintactico;
 
-import java.util.ArrayList;
-
 import javax.swing.tree.DefaultMutableTreeNode;
 
 /**

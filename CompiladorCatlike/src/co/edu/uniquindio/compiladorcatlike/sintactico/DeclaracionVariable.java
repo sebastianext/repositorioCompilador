@@ -64,8 +64,20 @@ public class DeclaracionVariable implements ISintactica {
 		}else {
 			raiz.add(new DefaultMutableTreeNode("Modificador de Acceso:"+modificadorAcceso.getLexema()));
 		}
-		raiz.add(new DefaultMutableTreeNode("Tipo: "+tipo.getLexema()));
-		raiz.add(new DefaultMutableTreeNode("Nombre: "+identificador.getLexema()));
+		if (tipo!=null) {
+			raiz.add(new DefaultMutableTreeNode("Tipo: "+tipo.getLexema()));
+		}else {
+			raiz.add(new DefaultMutableTreeNode("Tipo: null"));
+		}
+		
+		if (identificador!=null) {
+			raiz.add(new DefaultMutableTreeNode("Nombre: "+identificador.getLexema()));
+			
+		}else {
+			raiz.add(new DefaultMutableTreeNode("Nombre: null"));
+			
+		}
+		
 	
 		return raiz;
 	}

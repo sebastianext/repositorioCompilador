@@ -28,10 +28,6 @@ public class Return implements ISintactica {
 
 	private TokenCatlike token;
 	
-	
-	
-	
-	
 	/**
 	 * Metodo Costructor que inicializa las variables
 	 * @param token
@@ -41,18 +37,17 @@ public class Return implements ISintactica {
 		this.token = token;
 	}
 
-
-
-
-
 	/* (non-Javadoc)
 	 * @see co.edu.uniquindio.sintactico.catlike.ISintactica#getArbolVisual()
 	 */
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
-		// TODO Auto-generated method stub
-		
-		return null;
+		DefaultMutableTreeNode raiz= new DefaultMutableTreeNode("Retorno");
+		raiz.add(new DefaultMutableTreeNode("return"));
+		if (token!=null) {
+			raiz.add(new DefaultMutableTreeNode(token.getLexema()));
+		}
+		return raiz;
 		
 	}
 
